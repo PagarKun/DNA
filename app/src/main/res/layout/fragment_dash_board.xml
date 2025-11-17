@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navbar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:openDrawer="start"
+    tools:context=".DashBoard">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <!-- Header Bar -->
+
+
+            <!-- Judul & Deskripsi -->
+            <TextView
+                android:id="@+id/daftarkaryawan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:text="Daftar Karyawan"
+                android:textColor="@color/darkblue"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/Keloladanpantau"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="24dp"
+                android:text="Kelola dan pantau kinerja karyawan"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daftarkaryawan" />
+
+            <!-- Card Filter Pencarian -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/filterCard"
+                android:layout_width="322dp"
+                android:layout_height="293dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:backgroundTint="@color/white"
+                app:cardElevation="6dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Keloladanpantau"
+                app:strokeColor="@color/blueterang12"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="302dp"
+                    android:layout_height="279dp"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/searchIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="4dp"
+                        android:src="@drawable/filter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/darkblue" />
+
+                    <TextView
+                        android:id="@+id/searchText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Filter &amp; pencarian"
+                        android:textColor="@color/darkblue"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toEndOf="@+id/searchIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/namaKaryawan"
+                        android:layout_width="253dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundColor="@color/gray"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="9dp"
+                        app:boxCornerRadiusBottomStart="9dp"
+                        app:boxCornerRadiusTopEnd="9dp"
+                        app:boxCornerRadiusTopStart="9dp"
+                        app:boxStrokeColor="@color/blue"
+                        app:boxStrokeWidth="2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/searchText"
+                        app:startIconDrawable="@drawable/srcicon">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Cari nama karyawan"
+                            android:inputType="text"
+                            android:paddingStart="8dp"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                             />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/spinner"
+                        android:layout_width="253dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        app:boxBackgroundColor="@color/gray"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="9dp"
+                        app:boxCornerRadiusBottomStart="9dp"
+                        app:boxCornerRadiusTopEnd="9dp"
+                        app:boxCornerRadiusTopStart="9dp"
+                        app:boxStrokeColor="@color/blue"
+                        app:endIconMode="dropdown_menu"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/namaKaryawan">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteRoles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Posisi"
+                            android:paddingStart="8dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/jumlahKaryawan"
+                        android:layout_width="253dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="10dp"
+                        android:backgroundTint="@color/birumuda"
+                        app:cardCornerRadius="9dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/spinner"
+                        app:strokeColor="@color/blueterang12"
+                        app:strokeWidth="2dp">
+
+                        <ImageView
+                            android:layout_width="74dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="40dp"
+                            android:src="@drawable/person"
+                            app:tint="@color/darkblue" />
+
+                        <TextView
+                            android:layout_width="111dp"
+                            android:layout_height="32dp"
+                            android:layout_marginHorizontal="125dp"
+                            android:layout_marginVertical="24dp"
+                            android:text="Total karyawan" />
+
+                        <TextView
+                            android:layout_width="20dp"
+                            android:layout_height="32dp"
+                            android:layout_marginHorizontal="165dp"
+                            android:layout_marginVertical="44dp"
+                            android:text="10"
+                            android:textColor="@color/darkblue" />
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- RecyclerView Card -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleViews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filterCard" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

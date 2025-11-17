@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="NavigationViewFontStyle" parent="Widget.MaterialComponents.NavigationView">
+        <item name="android:fontFamily">@font/intermedium18</item>
+        <item name="itemTextAppearance">@style/NavViewItemFont</item>
+    </style>
+
+    <style name="NavViewItemFont" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/intermedium18</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
+</resources>

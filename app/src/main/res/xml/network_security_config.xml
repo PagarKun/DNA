@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- IP lokal server kamu -->
+        <domain includeSubdomains="true">192.168.0.108</domain>
+    </domain-config>
+
+    <!-- Ini opsional tapi bisa jaga-jaga buat koneksi lokal -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Daftar Karyawan"
+        android:icon="@drawable/person"
+        />
+
+    <item
+        android:id="@+id/nav_beban"
+        android:title="Beban Kerja"
+        android:icon="@drawable/jam" />
+
+    <item
+        android:id="@+id/nav_laporan"
+        android:title="Laporan Kinerja"
+        android:icon="@drawable/stat"
+        />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Logout"
+        android:icon="@drawable/logout" />
+
+</menu>
