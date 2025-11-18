@@ -74,7 +74,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/userName"
+                android:id="@+id/field_userName"
                 android:layout_width="299dp"
                 android:layout_height="58dp"
                 app:boxBackgroundColor="@color/gray"
@@ -92,6 +92,7 @@
                 app:layout_constraintVertical_bias="0.417">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Masukan Username" />
@@ -101,7 +102,7 @@
 
             <!--            Text field Password-->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/userName2"
+                android:id="@+id/field_password"
                 android:layout_width="299dp"
                 android:layout_height="58dp"
                 android:layout_marginTop="37dp"
@@ -113,12 +114,14 @@
                 app:boxCornerRadiusTopStart="9dp"
                 app:boxStrokeColor="@color/blue"
                 app:boxStrokeWidth="2dp"
+                app:endIconMode="password_toggle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userName"
+                app:layout_constraintTop_toBottomOf="@+id/field_userName"
                 app:layout_constraintVertical_bias="0.417">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Masukan Password"
@@ -132,8 +135,8 @@
                 android:layout_marginBottom="4dp"
                 android:text="Username"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/userName"
-                app:layout_constraintStart_toStartOf="@+id/userName" />
+                app:layout_constraintBottom_toTopOf="@+id/field_userName"
+                app:layout_constraintStart_toStartOf="@+id/field_userName" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -141,8 +144,8 @@
                 android:layout_marginBottom="4dp"
                 android:text="Password"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/userName2"
-                app:layout_constraintStart_toStartOf="@+id/userName2" />
+                app:layout_constraintBottom_toTopOf="@+id/field_password"
+                app:layout_constraintStart_toStartOf="@+id/field_password" />
 
             <!--            Button login -->
             <com.google.android.material.button.MaterialButton
@@ -154,8 +157,8 @@
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/blue"
                 app:cornerRadius="10dp"
-                app:layout_constraintStart_toStartOf="@id/userName2"
-                app:layout_constraintTop_toBottomOf="@id/userName2" />
+                app:layout_constraintStart_toStartOf="@id/field_password"
+                app:layout_constraintTop_toBottomOf="@id/field_password" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

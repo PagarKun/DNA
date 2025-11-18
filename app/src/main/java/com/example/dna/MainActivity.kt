@@ -3,7 +3,9 @@ package com.example.dna
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -11,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dna.TeamsResponse
 import com.example.dna.RetrofitClient
+import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,32 +31,46 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        val etUsername = findViewById<TextInputEditText>(R.id.Username)
+        val etPassword = findViewById<TextInputEditText>(R.id.Password)
+
         val btnLogin = findViewById<Button>(R.id.Login)
         btnLogin.setOnClickListener {
-            val intent = Intent(this, DashBoardActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this@MainActivity, DashBoardActivity::class.java))
             finish()
+
         }
 
-        // 🔥 Retrofit request ke API Golang
-        RetrofitClient.instance.getTeams().enqueue(object : Callback<TeamsResponse> {
-            override fun onResponse(call: Call<TeamsResponse>, response: Response<TeamsResponse>) {
-                if (response.isSuccessful) {
-                    val projects = response.body()?.projects ?: emptyList()
-                    for (project in projects) {
-                        Log.d("API_RESPONSE", "Project: ${project.name}")
-                        project.tasks?.forEach { task ->
-                            Log.d("API_RESPONSE", "- Task: ${task.name} (status: ${task.status})")
-                        }
-                    }
-                } else {
-                    Log.e("API_RESPONSE", "Error response: ${response.code()}")
-                }
-            }
+//            val USERNAME = etUsername.text.toString()
+//            val PASSWORD = etPassword.text.toString()
+//
+//            Log.d("LOGIN_INPUT", "USERNAME='$USERNAME' PASSWORD='$PASSWORD'")
+//
+//            val req = LoginRequest(USERNAME, PASSWORD)
 
-            override fun onFailure(call: Call<TeamsResponse>, t: Throwable) {
-                Log.e("API_RESPONSE", "Failed to connect: ${t.message}")
-            }
-        })
+//            RetrofitClient.instance.login(req).enqueue(object : Callback<LoginResponse> {
+//                override fun onResponse(
+//                    call: Call<LoginResponse>,
+//                    response: Response<LoginResponse>
+//                ) {
+//
+//                    if (response.isSuccessful) {
+//                        val token = response.body()?.data?.token
+//                        Log.d("LOGIN","TOKEN:$token")
+//
+//                        startActivity(Intent(this@MainActivity, DashBoardActivity::class.java))
+//                        finish()
+//                    } else {
+//                        Log.e("LOGIN", "Login Gagal:${response.code()}")
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+//                    Log.e("LOGIN", "ERROR: ${t.message}")
+//                }
+//            })
+//
+//
+//        }
     }
 }
