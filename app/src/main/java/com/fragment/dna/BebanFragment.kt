@@ -1,12 +1,20 @@
 package com.fragment.dna
 
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dna.AdapterClass
@@ -14,6 +22,7 @@ import com.example.dna.BebanAdapter
 import com.example.dna.BebanClass
 import com.example.dna.DataClass
 import com.example.dna.R
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.Calendar
 
 
@@ -55,18 +64,22 @@ class BebanFragment : Fragment() {
         // data
 
         val titleList = arrayOf(
-            "Rizqi",
-            "Rizqi",
-            "Rizqi",
-            "Rizqi"
+            "Total Karyawan",
+            "Overload",
+            "Normal",
+            "Underload",
+            "Rata-Rata Jam"
         )
 
         val angkaList = arrayOf(
-            "0",
+            "8",
             "1",
             "2",
             "3",
+            "128 Jam"
         )
+
+
 
         // isi dataList
         bebanList = arrayListOf()
@@ -91,5 +104,6 @@ class BebanFragment : Fragment() {
         }, year,month,day)
         datePickerDialog.show()
     }
+
 
 }

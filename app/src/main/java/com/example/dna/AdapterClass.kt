@@ -1,7 +1,5 @@
 package com.example.dna
 
-import android.accessibilityservice.GestureDescription
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +7,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dna.AdapterClass.ViewHolderClass
 import com.google.android.material.card.MaterialCardView
 
-class AdapterClass(private val dataList: List<DataClass>) :
-    RecyclerView.Adapter<AdapterClass.ViewHolderClass>() {
+class AdapterClass(
+    private val dataList: List<DataClass>,
+    private val onItemClick: (DataClass) -> Unit
+) : RecyclerView.Adapter<AdapterClass.ViewHolderClass>() {
 
     class ViewHolderClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val rvImage: ImageView = itemView.findViewById(R.id.profileImage)
-        val rvNama: TextView = itemView.findViewById(R.id.namakaryawan2)
-        val rvKeahlian: TextView = itemView.findViewById(R.id.keahlian)
+
+        val card: MaterialCardView = itemView as MaterialCardView
+        val image: ImageView = itemView.findViewById(R.id.profileImage)
+        val nama: TextView = itemView.findViewById(R.id.namakaryawan2)
+        val keahlian: TextView = itemView.findViewById(R.id.keahlian)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
@@ -28,10 +29,15 @@ class AdapterClass(private val dataList: List<DataClass>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
-        val currentItem = dataList[position]
-        holder.rvImage.setImageResource(currentItem.dataImage)
-        holder.rvNama.text = currentItem.dataNama
-        holder.rvKeahlian.text = currentItem.dataKeahlian
+        val item = dataList[position]
+
+        holder.image.setImageResource(item.dataImage)
+        holder.nama.text = item.dataNama
+        holder.keahlian.text = item.dataKeahlian
+
+        holder.card.setOnClickListener {
+            onItemClick(item)
+        }
     }
 
     override fun getItemCount(): Int = dataList.size
@@ -43,7 +49,6 @@ class BebanAdapter(private val bebanList: List<BebanClass>) :
     class ViewHolderClasskinerja(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val rvTitle: TextView = itemView.findViewById(R.id.title_beban)
         val rvAngka: TextView = itemView.findViewById(R.id.angka_beban)
-
 
 
     }
@@ -66,25 +71,27 @@ class BebanAdapter(private val bebanList: List<BebanClass>) :
         val card = holder.itemView as MaterialCardView
 
         val bgcolors = listOf(
-            ContextCompat.getColor(card.context,R.color.white),
-            ContextCompat.getColor(card.context,R.color.peach),
-            ContextCompat.getColor(card.context,R.color.hijau),
-            ContextCompat.getColor(card.context,R.color.kuning),
+            ContextCompat.getColor(card.context, R.color.white),
+            ContextCompat.getColor(card.context, R.color.peach),
+            ContextCompat.getColor(card.context, R.color.hijau),
+            ContextCompat.getColor(card.context, R.color.kuning),
 
-        )
+            )
         card.setCardBackgroundColor(bgcolors[position % bgcolors.size])
 
         val strokeColor = listOf(
-            ContextCompat.getColor(card.context,R.color.blueterang),
-            ContextCompat.getColor(card.context,R.color.peach2),
-            ContextCompat.getColor(card.context,R.color.hijau2),
-            ContextCompat.getColor(card.context,R.color.kuning2),
+            ContextCompat.getColor(card.context, R.color.blueterang),
+            ContextCompat.getColor(card.context, R.color.peach2),
+            ContextCompat.getColor(card.context, R.color.hijau2),
+            ContextCompat.getColor(card.context, R.color.kuning2),
         )
         card.strokeColor = strokeColor[position % strokeColor.size]
 
-        val strokeWidths = listOf(2,2,2,2)
+        val strokeWidths = listOf(2, 2, 2, 2)
 
         card.strokeWidth = strokeWidths[position % strokeWidths.size]
+
+
     }
 
     override fun getItemCount(): Int = bebanList.size
