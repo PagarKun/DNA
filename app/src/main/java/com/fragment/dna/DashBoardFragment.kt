@@ -32,7 +32,7 @@ class DashBoardFragment : Fragment() {
         recycleView.layoutManager = LinearLayoutManager(requireContext())
         recycleView.setHasFixedSize(true)
 
-        // isi data dulu
+        // isi data
         val imageList = arrayOf(
             R.drawable.apasih,
             R.drawable.apasih,
@@ -54,13 +54,13 @@ class DashBoardFragment : Fragment() {
             "Programmer4"
         )
 
-        // buat list data
+        // list data
         dataList = arrayListOf()
         for (i in imageList.indices) {
             dataList.add(DataClass(imageList[i], namaList[i], keahlianList[i]))
         }
 
-        // pasang adapter yang ada onClick
+        // adapter on click
         val adapter = AdapterClass(dataList) { item ->
             showBottomSheetDetail(item)
         }
