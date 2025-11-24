@@ -1,6 +1,6 @@
-package com.example.dna
+package com.LoginAPI
 
-import com.example.dna.ApiService
+import com.LoginAPI.ApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

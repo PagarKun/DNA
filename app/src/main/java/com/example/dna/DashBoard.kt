@@ -9,7 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.fragment.app.Fragment
 import com.fragment.dna.BebanFragment
-import com.fragment.dna.DashBoardFragment
+import com.example.dna.DashBoardFragment
 import com.fragment.dna.KinerjaFragment
 
 class DashBoard : AppCompatActivity() {

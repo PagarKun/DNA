@@ -1,5 +1,6 @@
 package com.example.dna
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,18 +9,25 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import com.bumptech.glide.Glide
+import com.example.dna.RetrofitClient
+const val BASE_URL = "https://go-kinerja-backend-production.up.railway.app/api/v1/clickup/members"
+
 
 class AdapterClass(
-    private val dataList: List<DataClass>,
-    private val onItemClick: (DataClass) -> Unit
+    private val dataList: List<MemberRequest>,
+    private val onItemClick: (MemberRequest) -> Unit
 ) : RecyclerView.Adapter<AdapterClass.ViewHolderClass>() {
 
     class ViewHolderClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val card: MaterialCardView = itemView as MaterialCardView
+
+        val card: MaterialCardView = itemView.findViewById(R.id.card_karyawan)
         val image: ImageView = itemView.findViewById(R.id.profileImage)
         val nama: TextView = itemView.findViewById(R.id.namakaryawan2)
         val keahlian: TextView = itemView.findViewById(R.id.keahlian)
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
@@ -30,10 +38,14 @@ class AdapterClass(
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val item = dataList[position]
+        Log.d ("BIND_ITEM", item.name)
 
-        holder.image.setImageResource(item.dataImage)
-        holder.nama.text = item.dataNama
-        holder.keahlian.text = item.dataKeahlian
+        holder.nama.text = item.name
+        holder.keahlian.text = item.username
+        Glide.with(holder.image.context)
+            .load(BASE_URL + item.photo?.removePrefix("/"))
+            .error(R.drawable.apasih)
+            .into(holder.image)
 
         holder.card.setOnClickListener {
             onItemClick(item)
@@ -42,6 +54,10 @@ class AdapterClass(
 
     override fun getItemCount(): Int = dataList.size
 }
+
+
+
+// BEBAN KERJA
 
 class BebanAdapter(private val bebanList: List<BebanClass>) :
     RecyclerView.Adapter<BebanAdapter.ViewHolderClasskinerja>() {
@@ -96,5 +112,8 @@ class BebanAdapter(private val bebanList: List<BebanClass>) :
 
     override fun getItemCount(): Int = bebanList.size
 }
+
+
+
 
 

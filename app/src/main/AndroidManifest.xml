@@ -22,7 +22,7 @@
             android:name=".DashBoard"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.LoginAPI.MainActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

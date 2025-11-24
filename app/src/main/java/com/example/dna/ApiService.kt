@@ -1,14 +1,10 @@
 package com.example.dna
 
-
-
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.GET
 
 interface ApiService {
 
-    @POST("auth/login")
-    fun login(@Body request: LoginRequest): Call<LoginResponse>
+    @GET("clickup/members")
+    fun getStaff(): Call <List<MemberRequest>>
 }
-

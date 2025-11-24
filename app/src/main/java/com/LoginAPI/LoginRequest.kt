@@ -1,4 +1,4 @@
-package com.example.dna
+package com.LoginAPI
 
 data class LoginRequest(
     val username: String,
