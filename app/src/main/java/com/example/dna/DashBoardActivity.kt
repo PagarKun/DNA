@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.LoginAPI.MainActivity
 import com.fragment.dna.BebanFragment
 import com.fragment.dna.KinerjaFragment
-import com.example.dna.DashBoardFragment
+import com.MemberAPI.DashBoardFragment
 import com.google.android.material.navigation.NavigationView
 
 class DashBoardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -20,6 +20,7 @@ class DashBoardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

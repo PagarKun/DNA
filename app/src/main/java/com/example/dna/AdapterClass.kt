@@ -8,14 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.MemberAPI.MemberRequest
 import com.google.android.material.card.MaterialCardView
 import com.bumptech.glide.Glide
-import com.example.dna.RetrofitClient
+import com.MemberAPI.RetrofitClient
 const val BASE_URL = "https://go-kinerja-backend-production.up.railway.app/api/v1/clickup/members"
 
 
 class AdapterClass(
-    private val dataList: List<MemberRequest>,
+    private val dataList: MutableList<MemberRequest>,
     private val onItemClick: (MemberRequest) -> Unit
 ) : RecyclerView.Adapter<AdapterClass.ViewHolderClass>() {
 
@@ -26,6 +27,7 @@ class AdapterClass(
         val image: ImageView = itemView.findViewById(R.id.profileImage)
         val nama: TextView = itemView.findViewById(R.id.namakaryawan2)
         val keahlian: TextView = itemView.findViewById(R.id.keahlian)
+
 
 
     }
@@ -53,6 +55,14 @@ class AdapterClass(
     }
 
     override fun getItemCount(): Int = dataList.size
+
+    fun filterList(filteredList:List<MemberRequest>) {
+        dataList.clear()
+        dataList.addAll(filteredList)
+        notifyDataSetChanged()
+
+
+    }
 }
 
 
