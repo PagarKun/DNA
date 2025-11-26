@@ -43,7 +43,7 @@ class AdapterClass(
         Log.d ("BIND_ITEM", item.name)
 
         holder.nama.text = item.name
-        holder.keahlian.text = item.username
+        holder.keahlian.text = item.role
         Glide.with(holder.image.context)
             .load(BASE_URL + item.photo?.removePrefix("/"))
             .error(R.drawable.apasih)
@@ -69,7 +69,7 @@ class AdapterClass(
 
 // BEBAN KERJA
 
-class BebanAdapter(private val bebanList: List<BebanClass>) :
+class BebanAdapter(private val bebanList: MutableList<BebanClass>) :
     RecyclerView.Adapter<BebanAdapter.ViewHolderClasskinerja>() {
 
     class ViewHolderClasskinerja(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -121,6 +121,12 @@ class BebanAdapter(private val bebanList: List<BebanClass>) :
     }
 
     override fun getItemCount(): Int = bebanList.size
+
+    fun updateData(newList:List<BebanClass>) {
+        bebanList.clear()
+        bebanList.addAll(newList)
+        notifyDataSetChanged()
+    }
 }
 
 

@@ -2,34 +2,47 @@ package com.fragment.dna
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.Adapter.Karyawan
 import com.Adapter.KaryawanAdapter
 import com.Adapter.Task
+import com.MemberAPI.MemberRequest
+import com.MemberAPI.RetrofitClient
+import com.MemberAPI.Todo
 import com.example.dna.BebanAdapter
 import com.example.dna.BebanClass
 import com.example.dna.R
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.Calendar
+import com.example.dna.AdapterClass
 
 class BebanFragment : Fragment() {
 
-    private lateinit var calender: Calendar
-    private lateinit var datePickerDialog: DatePickerDialog
-    private lateinit var tanggal: EditText
-
-    // Beban kerja summary
     private lateinit var recycleViewBeban: RecyclerView
+    private lateinit var bebanAdapter: BebanAdapter
     private lateinit var bebanList: ArrayList<BebanClass>
+    private val dataList = ArrayList<MemberRequest>()
+    private val fullList = ArrayList<MemberRequest>()
 
-    // Daftar karyawan
+
     private lateinit var recyclerViewKaryawan: RecyclerView
     private lateinit var adapterKaryawan: KaryawanAdapter
+
+    private lateinit var tanggal: EditText
+    private lateinit var tanggal_akhir: EditText
+    private lateinit var calendar: Calendar
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,58 +51,58 @@ class BebanFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_beban, container, false)
 
+        // DATE PICKER
 
-        // 1. DATE PICKER
-
+        //  Tanggal Mulai
         tanggal = view.findViewById(R.id.dateInput)
-        calender = Calendar.getInstance()
+        calendar = Calendar.getInstance()
 
         tanggal.setOnClickListener {
             showdatePicker(tanggal)
         }
 
+        //  Tanggal Akhir
+        tanggal_akhir = view.findViewById(R.id.dateInput_akhir)
+        calendar = Calendar.getInstance()
 
-        // 2. BEBAN KERJA SUMMARY
-
-
-        val titleList = arrayOf(
-            "Total Karyawan",
-            "Overload",
-            "Normal",
-            "Underload",
-            "Rata-Rata Jam"
-        )
-
-        val angkaList = arrayOf(
-            "8",
-            "1",
-            "2",
-            "3",
-            "128 Jam"
-        )
-
-        recycleViewBeban = view.findViewById(R.id.recycleViews_bebankerja)
-        recycleViewBeban.layoutManager = LinearLayoutManager(requireContext())
-
-        bebanList = arrayListOf()
-        for (i in titleList.indices) {
-            bebanList.add(BebanClass(titleList[i], angkaList[i]))
+        tanggal_akhir.setOnClickListener {
+            showdatePicker_akhir(tanggal_akhir)
         }
 
-        recycleViewBeban.adapter = BebanAdapter(bebanList)
+        // BEBAN SUMMARY SETUP
+
+
+        recycleViewBeban = view.findViewById(R.id.recycleViews_bebankerja)
+        recycleViewBeban.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        // Dummy
+        bebanList = arrayListOf(
+            BebanClass("Total Karyawan", "0"),
+            BebanClass("Overload", "0"),
+            BebanClass("Normal", "0"),
+            BebanClass("Underload", "0"),
+            BebanClass("Rata-Rata Jam", "0")
+        )
+
+        bebanAdapter = BebanAdapter(bebanList)
+        recycleViewBeban.adapter = bebanAdapter
+
+        // Panggil API
+        fetchTotalKaryawan()
 
 
 
-        // 3. LIST KARYAWAN
+        // KARYAWAN LIST
+
 
         recyclerViewKaryawan = view.findViewById(R.id.rvkaryawan)
         recyclerViewKaryawan.layoutManager = LinearLayoutManager(requireContext())
 
         val karyawanList = mutableListOf<Karyawan>()
 
-// ORANG 1
+        // ORANG 1
         val tasksBudi = listOf(
-            Task("lapor",2),
+            Task("lapor", 2),
             Task("bikin web", 2)
         )
 
@@ -105,19 +118,18 @@ class BebanFragment : Fragment() {
             )
         )
 
-// SET ADAPTER
         adapterKaryawan = KaryawanAdapter(karyawanList)
         recyclerViewKaryawan.adapter = adapterKaryawan
 
-// ORANG 2
+        // ORANG 2
         val tasksSiti = listOf(
-            Task("Input data",1),
-            Task("cek stok",2)
+            Task("Input data", 1),
+            Task("cek stok", 2)
         )
 
         karyawanList.add(
             Karyawan(
-                foto = R.drawable.apasih ,
+                foto = R.drawable.apasih,
                 nama = "Rizqi Putra",
                 keahlian = "Finance",
                 jamKerja = "7 Jam",
@@ -129,22 +141,65 @@ class BebanFragment : Fragment() {
 
         adapterKaryawan.notifyItemInserted(karyawanList.size - 1)
 
-
-        adapterKaryawan = KaryawanAdapter(karyawanList )
-        recyclerViewKaryawan.adapter = adapterKaryawan
-
         return view
     }
 
+
+
+    // FETCH API TOTAL KARYAWAN
+
+    private fun fetchTotalKaryawan() {
+
+        RetrofitClient.instance.getTodo().enqueue(object : Callback<Todo> {
+
+            override fun onResponse(call: Call<Todo>, response: Response<Todo>) {
+
+                if (response.isSuccessful) {
+                    Log.d("API_KARYAWAN","Respon Raw: ${response.body()}")
+
+                    val data = response.body()?.users ?:
+                    emptyList()
+                    var totalKaryawan = data.size.toString()
+
+                    val updatedList = arrayListOf(
+                        BebanClass("Total Karyawan", totalKaryawan),
+                        BebanClass("Overload", "2"),
+                        BebanClass("Normal", "2"),
+                        BebanClass("Underload", "2"),
+                        BebanClass("Rata-Rata Jam", "128 Jam")
+                    )
+                    fullList.clear()
+                    fullList.addAll(data)
+                    dataList.clear()
+                    dataList.addAll(data)
+
+
+                    bebanAdapter.updateData(updatedList)
+                }
+            }
+
+            override fun onFailure(call: Call<Todo>, t: Throwable) {
+                Log.e("API", "Error: ${t.message}")
+            }
+        })
+    }
+
     private fun showdatePicker(tanggal: EditText) {
-        val year = calender.get(Calendar.YEAR)
-        val month = calender.get(Calendar.MONTH)
-        val day = calender.get(Calendar.DAY_OF_MONTH)
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        datePickerDialog = DatePickerDialog(requireContext(), { _, y, m, d ->
+        DatePickerDialog(requireContext(), { _, y, m, d ->
             tanggal.setText("$d/${m + 1}/$y")
-        }, year, month, day)
+        }, year, month, day).show()
+    }
+    private fun showdatePicker_akhir(tanggal_akhir: EditText) {
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        datePickerDialog.show()
+        DatePickerDialog(requireContext(), { _, y, m, d ->
+            tanggal_akhir.setText("$d/${m + 1}/$y")
+        }, year, month, day).show()
     }
 }

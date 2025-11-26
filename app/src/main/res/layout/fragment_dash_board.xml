@@ -131,6 +131,7 @@
                         app:endIconMode="dropdown_menu"
                         app:boxBackgroundColor="@color/gray"
                         app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/blue"
                         app:boxCornerRadiusTopStart="9dp"
                         app:boxCornerRadiusTopEnd="9dp"
                         app:boxCornerRadiusBottomStart="9dp"
@@ -186,7 +187,7 @@
 
                                 <TextView
                                     android:id="@+id/jmlhkaryawan"
-                                    android:text="10"
+                                    android:text="0"
                                     android:textColor="@color/darkblue"
                                     android:textSize="20sp"
                                     android:gravity="center"
