@@ -85,13 +85,14 @@ class BebanFragment : Fragment() {
         recycleViewBeban = view.findViewById(R.id.recycleViews_bebankerja)
         recycleViewBeban.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        // Dummy
+        // Dummy Card Total karyawan
         bebanList = arrayListOf(
             BebanClass("Total Karyawan", "0"),
             BebanClass("Overload", "0"),
             BebanClass("Normal", "0"),
             BebanClass("Underload", "0"),
-            BebanClass("Rata-Rata Jam", "0")
+            BebanClass("Rata-Rata Jam", "0"),
+            BebanClass("Yang akan datang", "0")
         )
 
         bebanAdapter = BebanAdapter(bebanList)
@@ -113,8 +114,8 @@ class BebanFragment : Fragment() {
 
         // ORANG 1
         val tasksBudi = listOf(
-            Task("Frontend dan backend", 2),
-            Task("Bug", 2)
+            Task("Frontend dan backend", 2,false),
+            Task("Bug", 2,false)
         )
 
         karyawanList.add(
@@ -136,8 +137,8 @@ class BebanFragment : Fragment() {
 
         // ORANG 2
         val tasksSiti = listOf(
-            Task("Input data", 1),
-            Task("cek stok", 2)
+            Task("Input data", 1,false),
+            Task("cek stok", 2,false)
         )
 
         karyawanList.add(
@@ -181,7 +182,8 @@ class BebanFragment : Fragment() {
                         BebanClass("Overload", "2"),
                         BebanClass("Normal", "2"),
                         BebanClass("Underload", "2"),
-                        BebanClass("Rata-Rata Jam", "128 Jam")
+                        BebanClass("Rata-Rata Jam", "128 Jam"),
+                        BebanClass("Yang akan datang", "128 Jam")
                     )
                     fullList.clear()
                     fullList.addAll(data)

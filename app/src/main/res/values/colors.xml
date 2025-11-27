@@ -5,6 +5,7 @@
     <color name="white2">#FFFCFC</color>
     <color name="gray">#ECECEC</color>
 
+
     <color name="abuabu">#7E7C7C</color>
     <color name="abuabu2">#D1CFCF</color>
     <color name="abuabu3">#DEDEDE</color>
@@ -27,6 +28,7 @@
     <color name="blue">#0096FF</color>
     <color name="blue2">#CEDDFF</color>
     <color name="blue3">#F0F4FF</color>
+    <color name="blue4">#2861FB</color>
     <color name="darkblue">#0A2472</color>
     <color name="blueterang">#7CB1FB</color>
     <color name="blueterang12">#BCD8FB</color>
@@ -47,6 +49,9 @@
     <color name="ungu3">#5A0787</color>
     <color name="ungustroke">#D2A5E8</color>
 
+
+<!--Merah-->
+    <color name="red">#FF0000</color>
 
 
 

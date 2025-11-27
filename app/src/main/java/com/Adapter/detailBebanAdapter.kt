@@ -23,6 +23,7 @@ class detailBebanAdapter(
     override fun onBindViewHolder(holder: detailViewHolder, position: Int) {
         val data = allData[position]
 
+        holder.judul
         holder.detailjam.text = data.totaljam
         holder.detailtask.text = data.totaltask
         holder.detailgambar.setImageResource(data.gambar)
@@ -31,7 +32,7 @@ class detailBebanAdapter(
 
         val bgcolors = listOf(
             ContextCompat.getColor(card.context, R.color.blue3),
-            ContextCompat.getColor(card.context, R.color.abuabu2),
+            ContextCompat.getColor(card.context, R.color.gray),
 
 
             )
@@ -41,6 +42,7 @@ class detailBebanAdapter(
     override fun getItemCount(): Int = allData.size
 
     inner class detailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val judul: TextView = itemView.findViewById(R.id.titlebeban)
         val detailjam: TextView = itemView.findViewById(R.id.total_jam_kerja_aktif)
         val detailtask: TextView = itemView.findViewById(R.id.total_task_kerja_aktif)
         val detailgambar: ImageView = itemView.findViewById(R.id.gambardetail)

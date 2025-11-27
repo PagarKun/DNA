@@ -10,6 +10,6 @@ data class Karyawan(
     val periode: String,
     val taskList: List<Task>,
     var isExpanded: Boolean = false,
-    var isBebanExpanded: Boolean = false
+    var isBebanExpanded: Boolean = false,
 )
 

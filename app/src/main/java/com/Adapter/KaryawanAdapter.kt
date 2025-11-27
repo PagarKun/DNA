@@ -61,6 +61,7 @@ class KaryawanAdapter(
 
         val databebandata =
             detailBeban (
+                judul = "Total Beban kerja (Aktif)",
                 totaltask = "72 jam",
                 totaljam = "2 task",
                 gambar = R.drawable.jam
@@ -69,8 +70,9 @@ class KaryawanAdapter(
 
         val peforma =
             detailBeban (
-                totaltask = "40%",
-                totaljam = "standar",
+                judul = "Peforma",
+                totaltask = "Standar",
+                totaljam = "40%",
                 gambar = R.drawable.ic_task
             )
 

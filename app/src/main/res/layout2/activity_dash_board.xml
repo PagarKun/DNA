@@ -31,8 +31,7 @@ android:layout_height="match_parent">
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="18dp"
                     app:strokeColor="@color/blue"
-                    app:strokeWidth="1dp"
-                    app:cardBackgroundColor="@color/white">
+                    app:strokeWidth="1dp">
 
                     <ImageView
                         android:id="@+id/garis3"
@@ -73,18 +72,7 @@ android:layout_height="match_parent">
             android:background="@drawable/bordernav"
             app:itemIconTint="@color/white"
             app:itemTextColor="@color/white"
-            >
-
-            <include
-                layout="@layout/nav_footer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                />
-
-        </com.google.android.material.navigation.NavigationView>
-
-
+            />
 
 
 

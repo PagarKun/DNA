@@ -11,7 +11,7 @@
     <!-- Garis bawah -->
     <item android:gravity="bottom">
         <shape android:shape="rectangle">
-            <solid android:color="@color/blue"/>
+            <solid android:color="@color/blueberry"/>
             <size android:height="2dp"/> <!-- tebal garis -->
         </shape>
     </item>
