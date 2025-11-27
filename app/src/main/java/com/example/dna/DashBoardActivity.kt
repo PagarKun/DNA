@@ -10,8 +10,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.LoginAPI.MainActivity
 import com.fragment.dna.BebanFragment
-import com.fragment.dna.KinerjaFragment
-import com.MemberAPI.DashBoardFragment
+import com.Nyoba.KinerjaFragment
+import com.fragment.dna.DashBoardFragment
 import com.google.android.material.navigation.NavigationView
 
 class DashBoardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {

@@ -15,9 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.Adapter.Karyawan
 import com.Adapter.KaryawanAdapter
 import com.Adapter.Task
+import com.Adapter.detailBeban
+import com.Adapter.detailBebanAdapter
 import com.MemberAPI.MemberRequest
 import com.MemberAPI.RetrofitClient
 import com.MemberAPI.Todo
+import com.Nyoba.Employee
+import com.Nyoba.EmployeeAdapter
 import com.example.dna.BebanAdapter
 import com.example.dna.BebanClass
 import com.example.dna.R
@@ -44,12 +48,19 @@ class BebanFragment : Fragment() {
     private lateinit var calendar: Calendar
 
 
+//    detail beban karyawan
+    private lateinit var rvBeban: RecyclerView
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_beban, container, false)
+
+
 
         // DATE PICKER
 
@@ -70,7 +81,6 @@ class BebanFragment : Fragment() {
         }
 
         // BEBAN SUMMARY SETUP
-
 
         recycleViewBeban = view.findViewById(R.id.recycleViews_bebankerja)
         recycleViewBeban.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -99,11 +109,12 @@ class BebanFragment : Fragment() {
         recyclerViewKaryawan.layoutManager = LinearLayoutManager(requireContext())
 
         val karyawanList = mutableListOf<Karyawan>()
+        val detailbebanList = mutableListOf<detailBeban>()
 
         // ORANG 1
         val tasksBudi = listOf(
-            Task("lapor", 2),
-            Task("bikin web", 2)
+            Task("Frontend dan backend", 2),
+            Task("Bug", 2)
         )
 
         karyawanList.add(
@@ -118,7 +129,9 @@ class BebanFragment : Fragment() {
             )
         )
 
-        adapterKaryawan = KaryawanAdapter(karyawanList)
+
+
+        adapterKaryawan = KaryawanAdapter(karyawanList,detailbebanList)
         recyclerViewKaryawan.adapter = adapterKaryawan
 
         // ORANG 2
@@ -140,6 +153,8 @@ class BebanFragment : Fragment() {
         )
 
         adapterKaryawan.notifyItemInserted(karyawanList.size - 1)
+
+
 
         return view
     }
@@ -202,4 +217,5 @@ class BebanFragment : Fragment() {
             tanggal_akhir.setText("$d/${m + 1}/$y")
         }, year, month, day).show()
     }
+
 }

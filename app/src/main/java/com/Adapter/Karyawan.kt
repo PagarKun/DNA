@@ -8,6 +8,8 @@ data class Karyawan(
     val jamKerja: String,
     val jumlahTask: Int,
     val periode: String,
-    val taskList: List<Task>
+    val taskList: List<Task>,
+    var isExpanded: Boolean = false,
+    var isBebanExpanded: Boolean = false
 )
 

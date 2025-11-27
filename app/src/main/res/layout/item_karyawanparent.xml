@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    android:padding="16dp"
     app:cardElevation="6dp"
     app:cardCornerRadius="16dp"
     android:backgroundTint="@color/white">
@@ -12,49 +11,51 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <!-- Header: Foto + Nama -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profileImage12"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="16dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:scaleType="centerCrop"
                 android:clipToOutline="true"
                 app:shapeAppearanceOverlay="@style/CircleImage"
-                android:src="@drawable/apasih" />
+                android:src="@drawable/apasih"
+                app:strokeWidth="3dp"
+                app:strokeColor="@color/darkblue"/>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_weight="1"
+                android:layout_marginStart="16dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/nama_kinerja"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nama Karyawan"
-                    android:background="@android:color/transparent"
+                    android:text="Budi Santoso"
                     android:textColor="@color/darkblue"
-                    style="@style/NavigationViewFontStyle"
                     android:textStyle="bold"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/keahlian_kinerja"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Keahlian"
+                    android:layout_marginTop="4dp"
+                    android:text="Frontend Developer"
                     android:textColor="@color/abuabu"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/departemen"
@@ -62,152 +63,192 @@
                     android:layout_height="wrap_content"
                     android:text="Teknologi Informasi"
                     android:textColor="@color/abuabu"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Garis -->
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:layout_marginVertical="16dp"-->
-<!--            android:background="#D9D9D9" />-->
-
-        <!-- TOTAL JAM + JUMLAH TASK -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <!-- Total Jam -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/jam"
-                    app:tint="@color/blue" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="8dp">
-
-                    <TextView
-                        android:text="Total Jam"
-                        android:textSize="14sp"
-                        android:textColor="@color/abuabu"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"/>
-
-                    <TextView
-                        android:id="@+id/jamKerja"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:text="128 jam"
-                        android:textColor="@color/darkblue"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Jumlah Task -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/work"
-                    app:tint="@color/blue" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="8dp">
-
-                    <TextView
-                        android:text="Jumlah Task"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/abuabu" />
-
-                    <TextView
-                        android:id="@+id/jumlahTask"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:text="4 task"
-                        android:textColor="@color/darkblue"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- PERIODE -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- Badge Underload -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginStart="18dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/calender"
-                app:tint="@color/blue" />
+            android:backgroundTint="@color/abuabu3"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="8dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:rotation="-295"
+                    android:src="@drawable/performa"
+                    app:tint="@color/black"
+                    android:layout_marginEnd="8dp"/>
 
                 <TextView
-                    android:text="Periode"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/abuabu" />
-
-                <TextView
-                    android:id="@+id/periode"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Sep 2025"
-                    android:textColor="@color/darkblue"
-                    android:textSize="16sp" />
+                    android:text="Underload"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="14sp"/>
             </LinearLayout>
-        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Garis -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginVertical="16dp"
-            android:background="#D9D9D9" />
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="#E0E0E0" />
 
-        <!-- RecyclerView Anak -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/childTaskRecycler"
+        <!-- Card 1: Detail Beban Karyawan -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardBeban"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never" />
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/blue2"
+            app:cardElevation="0dp"
+            android:backgroundTint="@android:color/transparent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Header Clickable -->
+                <LinearLayout
+                    android:id="@+id/headerBeban"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/jam"
+                        app:tint="@color/darkblue"
+                        android:layout_marginEnd="12dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Detail Beban Karyawan"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"/>
+
+                    <ImageView
+                        android:id="@+id/arrowBeban"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="@color/darkblue"/>
+                </LinearLayout>
+
+                <!-- Expandable Content -->
+                <LinearLayout
+                    android:id="@+id/expandableBeban"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvBeban"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Card 2: Ringkasan Task Detail -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/blue2"
+            app:cardElevation="0dp"
+            android:backgroundTint="@android:color/transparent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <!-- Header Clickable -->
+                <LinearLayout
+                    android:id="@+id/headerTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_task"
+                        app:tint="@color/darkblue"
+                        android:layout_marginEnd="12dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Ringkasan Task Detail (4 task)"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"/>
+
+                    <ImageView
+                        android:id="@+id/arrowTask"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="@color/darkblue"/>
+                </LinearLayout>
+
+                <!-- Expandable Content with RecyclerView -->
+                <LinearLayout
+                    android:id="@+id/expandableTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingBottom="16dp"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvTasks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

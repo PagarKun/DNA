@@ -73,8 +73,8 @@ class BebanAdapter(private val bebanList: MutableList<BebanClass>) :
     RecyclerView.Adapter<BebanAdapter.ViewHolderClasskinerja>() {
 
     class ViewHolderClasskinerja(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val rvTitle: TextView = itemView.findViewById(R.id.title_beban)
-        val rvAngka: TextView = itemView.findViewById(R.id.angka_beban)
+        val rvTitle: TextView = itemView.findViewById(R.id.tvTitle)
+        val rvAngka: TextView = itemView.findViewById(R.id.tvValue)
 
 
     }
@@ -111,6 +111,16 @@ class BebanAdapter(private val bebanList: MutableList<BebanClass>) :
             ContextCompat.getColor(card.context, R.color.hijau2),
             ContextCompat.getColor(card.context, R.color.kuning2),
         )
+
+        val textColors = listOf(
+            ContextCompat.getColor(card.context, R.color.blueterang),
+            ContextCompat.getColor(card.context, R.color.peach2),
+            ContextCompat.getColor(card.context, R.color.hijau2),
+            ContextCompat.getColor(card.context, R.color.kuning2),
+        )
+
+        holder.rvAngka.setTextColor(textColors[position % textColors.size])
+
         card.strokeColor = strokeColor[position % strokeColor.size]
 
         val strokeWidths = listOf(2, 2, 2, 2)

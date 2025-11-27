@@ -7,6 +7,8 @@
 
     <color name="abuabu">#7E7C7C</color>
     <color name="abuabu2">#D1CFCF</color>
+    <color name="abuabu3">#DEDEDE</color>
+    <color name="abuabu4">#666666</color>
     <color name="peach">#ADF8E4E8</color>
     <color name="peach2">#DDFDC7D2</color>
 
@@ -23,6 +25,8 @@
     <color name="birumuda">#DCE9FA</color>
     <color name="birumodern">#0D2F8F</color>
     <color name="blue">#0096FF</color>
+    <color name="blue2">#CEDDFF</color>
+    <color name="blue3">#F0F4FF</color>
     <color name="darkblue">#0A2472</color>
     <color name="blueterang">#7CB1FB</color>
     <color name="blueterang12">#BCD8FB</color>
