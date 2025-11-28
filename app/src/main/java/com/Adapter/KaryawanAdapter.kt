@@ -8,11 +8,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.MemberAPI.MemberRequest
 import com.example.dna.R
 import com.google.android.material.card.MaterialCardView
 
 class KaryawanAdapter(
-    private val listKaryawan: List<Karyawan>,
+    private val listKaryawan: MutableList<Karyawan>,
     private val detailbeban: List<detailBeban>
 ) : RecyclerView.Adapter<KaryawanAdapter.ViewHolder>() {
 
@@ -39,6 +40,7 @@ class KaryawanAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
+
             .inflate(R.layout.item_karyawanparent, parent, false)
         return ViewHolder(view)
     }
@@ -108,4 +110,10 @@ class KaryawanAdapter(
     }
 
     override fun getItemCount(): Int = listKaryawan.size
+
+    fun updateList(newList: List<Karyawan>) {
+        listKaryawan.clear()
+        listKaryawan.addAll(newList)
+        notifyDataSetChanged()
+    }
 }

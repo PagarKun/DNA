@@ -8,9 +8,10 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.DetailTaskAdapter.detailAdapter
+import com.Adapter.Task
 import com.DetailTaskAdapter.detailTaskModel
 import com.example.dna.R
+import com.DetailTaskAdapter.detailAdapter
 
 
 class TaskAdapter(private val taskList: List<Task>)
@@ -21,8 +22,6 @@ class TaskAdapter(private val taskList: List<Task>)
         val rvTask : RecyclerView = itemView.findViewById(R.id.rvTask)
         val layoutExpandable: LinearLayout = itemView.findViewById(R.id.expandableTaskdetail)
         val isExpandedArrow : ConstraintLayout = itemView.findViewById(R.id.headerDetailTask)
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,48 +31,24 @@ class TaskAdapter(private val taskList: List<Task>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       val data = taskList[position]
+        val data = taskList[position]
 
-        holder.rvTask.layoutManager = LinearLayoutManager(holder.itemView.context)
+        // 1. Ambil data Tingkat 2 dan set judul
+        holder.namaTask.text = data.judul
 
-        val datatasks =
-            detailTaskModel (
-            judul = "Develop",
-            judul2 = "Landing Page",
-            jam = "32 Jam",
-            tanggal = "12/12/2001212",
-            project = "Clikclok",
-            progress = "Selesai",
-            level = "Highhhh",
-                isExpanded = false
-        )
-        val datatask2 =
-            detailTaskModel (
-            judul = "asdasdasdasd",
-            judul2 = "2222asdasdadasd22",
-            jam = "32 Jam",
-            tanggal = "12/12/2001212",
-            project = "Clikclok",
-            progress = "Selesai",
-            level = "Highhhh",
-                isExpanded = false
-        )
+        // 2. Ambil LIST DETAIL TUGAS YANG UNIK (Tingkat 3)
+        val uniqueDetailData = data.detailTaskList
 
-        val allData = listOf(datatasks,datatask2)
-
+        // 3. Set Adapter Tingkat 3 dengan data UNIK
         holder.rvTask.layoutManager = LinearLayoutManager (holder.itemView.context)
-        holder.rvTask.adapter = detailAdapter(allData)
+        holder.rvTask.adapter = detailAdapter(uniqueDetailData)
 
-
-
+        // 4. Logic expand/collapse
         holder.layoutExpandable.visibility = if (data.isExpanded) View.VISIBLE else View.GONE
-
-        // Click listener for expand/collapse
         holder.isExpandedArrow.setOnClickListener {
             data.isExpanded = !data.isExpanded
             notifyItemChanged(position)
         }
-
     }
 
     override fun getItemCount(): Int = taskList.size

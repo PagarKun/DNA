@@ -2,7 +2,7 @@ package com.DetailTaskAdapter
 
 data class detailTaskModel(
     val judul: String,
-    val judul2: String,
+    val desc: String,
     val jam : String,
     val tanggal: String,
     val project: String,

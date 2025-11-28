@@ -18,8 +18,8 @@ class detailAdapter(private val datadata: List<detailTaskModel>)
 
     inner class detailTaskViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
         val judul = itemView.findViewById<TextView>(R.id.tv_title1)
-        val judul2 = itemView.findViewById<TextView>(R.id.tv_title2)
         val jam = itemView.findViewById<TextView>(R.id.tv_time)
+        val desc = itemView.findViewById<TextView>(R.id.tv_desc)
         val tanggal = itemView.findViewById<TextView>(R.id.tv_date)
         val project = itemView.findViewById<TextView>(R.id.tv_project)
         val progress = itemView.findViewById<TextView>(R.id.tv_status)
@@ -43,7 +43,7 @@ class detailAdapter(private val datadata: List<detailTaskModel>)
        val data = datadata [position]
 
         holder.judul.text = data.judul
-        holder.judul2.text = data.judul2
+        holder.desc.text = data.desc
         holder.jam.text = data.jam
         holder.tanggal.text = data.tanggal
         holder.project.text = data.project

@@ -46,12 +46,15 @@ class DashBoardFragment : Fragment() {
         val searchInput: EditText = view.findViewById(R.id.searchInput)
         searchInput.addTextChangedListener { text ->
             val keyword = text.toString()
-            val filtered = fullList  .filter {
-                it.name.contains(keyword, ignoreCase = true) ||
-                        it.username.contains(keyword, ignoreCase = true)
+            val filtered = fullList.filter { member ->
+                val nameMatch = member.name?.contains(keyword, ignoreCase = true) ?: false
+                val usernameMatch = member.display_name?.contains(keyword, ignoreCase = true) ?: false
+
+                nameMatch || usernameMatch
             }
             adapter.filterList(filtered)
         }
+
 
 
         recycleView = view.findViewById(R.id.recycleViews)
@@ -112,7 +115,7 @@ class DashBoardFragment : Fragment() {
 
 
         nama.text = item.name
-        email.text = item.username
+        email.text = item.display_name
 
         bottomSheet.setContentView(view)
         bottomSheet.behavior.peekHeight = 900

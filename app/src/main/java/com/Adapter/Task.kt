@@ -1,7 +1,9 @@
 package com.Adapter
+import com.DetailTaskAdapter.detailTaskModel
 
 data class Task(
     val judul: String,
-    val tanggal: Int,
-    var isExpanded: Boolean
+    val jumlahTask: Int,
+    var isExpanded: Boolean,
+    var detailTaskList: List <detailTaskModel>
 )
