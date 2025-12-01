@@ -46,7 +46,7 @@ class AdapterClass(
         holder.keahlian.text = item.role
         Glide.with(holder.image.context)
             .load(BASE_URL + item.photo?.removePrefix("/"))
-            .error(R.drawable.apasih)
+            .error(R.drawable.profile)
             .into(holder.image)
 
         holder.card.setOnClickListener {

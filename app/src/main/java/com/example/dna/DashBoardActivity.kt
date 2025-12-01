@@ -61,7 +61,7 @@ class DashBoardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         when (item.itemId) {
             R.id.nav_home -> replaceFragment(DashBoardFragment())
             R.id.nav_beban -> replaceFragment(BebanFragment())
-            R.id.nav_laporan -> replaceFragment(KinerjaFragment())
+//            R.id.nav_laporan -> replaceFragment(KinerjaFragment())
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

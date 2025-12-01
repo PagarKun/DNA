@@ -39,7 +39,7 @@
                         android:id="@+id/tv_title1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hitam"
+                        android:text="Judul Task"
                         android:textStyle="bold"
                         android:textSize="16sp"/>
 
@@ -64,6 +64,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Selesai"
+                            android:textStyle="bold"
                             android:textColor="@color/darkblue"
                             android:padding="6dp"/>
                     </com.google.android.material.card.MaterialCardView>
@@ -92,7 +93,7 @@
                 android:id="@+id/tv_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create responsive landing page"
+                android:text="Deskripsi task"
                 android:textColor="@color/abuabu"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"/>
@@ -138,6 +139,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 android:layout_marginTop="12dp"
+                android:backgroundTint="@android:color/transparent"
                 app:strokeColor="@color/blueterang12">
 
                 <TextView
@@ -148,7 +150,7 @@
                     android:paddingRight="10dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    android:text="Clickclok"
+                    android:text="Project Name"
                     android:textColor="@color/darkblue"/>
             </com.google.android.material.card.MaterialCardView>
 

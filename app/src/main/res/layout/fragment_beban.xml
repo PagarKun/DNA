@@ -189,11 +189,11 @@
 
                             <AutoCompleteTextView
                                 android:id="@+id/cariNama"
+                                android:inputType="text"
+                                android:maxLines="1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Cari nama karyawan"
-                                android:inputType="none"
-                                android:padding="10dp" />
+                                android:hint="Cari nama karyawan" android:padding="10dp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <!-- Dropdown Posisi -->

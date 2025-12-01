@@ -23,13 +23,14 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profileImage12"
+                android:padding="2dp"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
                 android:clipToOutline="true"
                 app:shapeAppearanceOverlay="@style/CircleImage"
-                android:src="@drawable/apasih"
-                app:strokeWidth="3dp"
+                android:src="@drawable/profile"
+                app:strokeWidth="1dp"
                 app:strokeColor="@color/darkblue"/>
 
             <LinearLayout

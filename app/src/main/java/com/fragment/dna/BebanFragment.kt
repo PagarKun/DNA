@@ -94,6 +94,7 @@ class BebanFragment : Fragment() {
 
         return view
     }
+//    Search Enginge
     private fun setupDrowdownAndListener() {
 
         val namaKaryawan = originalKaryawanList.map { it.nama }.toMutableList()
@@ -103,22 +104,56 @@ class BebanFragment : Fragment() {
         namaKaryawan.add(0, SEMUA_KARYAWAN)
 
 
-        val dropdownAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, namaKaryawan)
+        val dropdownAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_nama_karyawan, R.id.list_namakaryawan , namaKaryawan)
         autoCompleteKaryawan.setAdapter(dropdownAdapter)
 
         // Set listener
         autoCompleteKaryawan.setOnItemClickListener { parent, view, position, id ->
             val itemDipilih = parent.getItemAtPosition(position).toString()
 
-            if (itemDipilih == SEMUA_KARYAWAN) {
+            performSearch(itemDipilih)
 
-                adapterKaryawan.updateList(originalKaryawanList)
+        }
+
+        autoCompleteKaryawan.setOnEditorActionListener { textView, actionId, keyEvent ->
+
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH ||
+                actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE ||
+                    (keyEvent != null && keyEvent.action == android.view.KeyEvent.KEYCODE_ENTER && keyEvent.keyCode == android.view.KeyEvent.ACTION_DOWN)) {
+
+                val keyword = textView.text.toString()
+                performSearch(keyword)
+
+                val imm = context?.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as? android.view.inputmethod.InputMethodManager
+                imm?.hideSoftInputFromWindow(textView.windowToken, 0)
+
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+
+        }
+    }
+
+//    Func Pencarian terpusat
+
+    private fun performSearch(keyword: String) {
+        val SEMUA_KARYAWAN = "Semua Karyawan"
+
+
+//        kalau keyword kosong atau "Semua Karyawan" Tampilkan semua
+
+        if (keyword.isBlank()|| keyword.equals(SEMUA_KARYAWAN, ignoreCase = true)){
+            adapterKaryawan.updateList(originalKaryawanList)
+        }else {
+//            Cari karyawan bedasarkan nama yang Mirip
+            val hasilPencarian = originalKaryawanList.filter {
+                it.nama.contains(keyword, ignoreCase = true)
+            }
+            if (hasilPencarian.isNotEmpty()) {
+                adapterKaryawan.updateList(hasilPencarian)
             } else {
-
-                val karyawanDipilih = originalKaryawanList.find { it.nama == itemDipilih }
-                if (karyawanDipilih != null) {
-                    adapterKaryawan.updateList(listOf(karyawanDipilih))
-                }
+//
+                adapterKaryawan.updateList(emptyList())
             }
         }
     }
@@ -133,18 +168,18 @@ class BebanFragment : Fragment() {
                 "Develop Landing Page",
                 "Create responsive landing page",
                 "32 Jam",
-                "12/12/2001212",
-                "Clikclok",
+                "12/12/2025",
+                "ClickUp",
                 "Selesai",
-                "Highhhh",
+                "High",
                 false),
             detailTaskModel(
                 "Code Review",
-                "Reviewing PR #101",
-                "10 Jam", "12/12/2001212",
-                "Clikclok",
+                "Reviewing",
+                "10 Jam", "12/12/2025",
+                "ClickUp",
                 "Selesai",
-                "Highhhh",
+                "High",
                 false)
         )
         val detailListRizqiAja2 = listOf(
@@ -152,8 +187,8 @@ class BebanFragment : Fragment() {
                 "Fix Critical Bug",
                 "Database connection issue",
                 "8 Jam",
-                "15/12/2001212",
-                "Project X",
+                "15/12/2025",
+                "ClickUp",
                 "Pending",
                 "Critical",
                 false),
@@ -161,8 +196,8 @@ class BebanFragment : Fragment() {
                 "Write Unit Test",
                 "Testing new module",
                 "4 Jam",
-                "15/12/2001212",
-                "Project X",
+                "15/12/2025",
+                "ClickUp",
                 "Selesai",
                 "Medium",
                 false)
@@ -219,7 +254,7 @@ class BebanFragment : Fragment() {
         // Tambahkan data ke daftar asli
         originalKaryawanList.add(
             Karyawan(
-                foto = R.drawable.apasih,
+                foto = R.drawable.profile,
                 nama = "Rizqi Putra",
                 keahlian = "Finance",
                 jamKerja = "7 Jam",
@@ -230,7 +265,7 @@ class BebanFragment : Fragment() {
         )
         originalKaryawanList.add(
             Karyawan(
-                foto = R.drawable.apasih,
+                foto = R.drawable.profile,
                 nama = "Rizqi Aja",
                 keahlian = "Admin",
                 jamKerja = "8 Jam",

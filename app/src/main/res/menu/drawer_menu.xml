@@ -12,11 +12,11 @@
         android:title="Beban Kerja"
         android:icon="@drawable/jam" />
 
-    <item
-        android:id="@+id/nav_laporan"
-        android:title="Laporan Kinerja"
-        android:icon="@drawable/stat"
-        />
+<!--    <item-->
+<!--        android:id="@+id/nav_laporan"-->
+<!--        android:title="Laporan Kinerja"-->
+<!--        android:icon="@drawable/stat"-->
+<!--        />-->
 
 
 
