@@ -3,6 +3,7 @@ package com.Adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -21,6 +22,7 @@ class TaskAdapter(private val taskList: List<Task>)
         val namaTask = itemView.findViewById<TextView>(R.id.taskTitle)
         val rvTask : RecyclerView = itemView.findViewById(R.id.rvTask)
         val layoutExpandable: LinearLayout = itemView.findViewById(R.id.expandableTaskdetail)
+        val arrowdetailTask : ImageView = itemView.findViewById(R.id.arrowdetailTask)
         val isExpandedArrow : ConstraintLayout = itemView.findViewById(R.id.headerDetailTask)
     }
 
@@ -45,6 +47,7 @@ class TaskAdapter(private val taskList: List<Task>)
 
         // 4. Logic expand/collapse
         holder.layoutExpandable.visibility = if (data.isExpanded) View.VISIBLE else View.GONE
+        holder.arrowdetailTask.rotation = if (data.isExpanded) 180f else 0f
         holder.isExpandedArrow.setOnClickListener {
             data.isExpanded = !data.isExpanded
             notifyItemChanged(position)

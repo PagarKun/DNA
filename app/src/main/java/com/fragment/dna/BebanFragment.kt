@@ -27,8 +27,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.Calendar
 import com.DetailTaskAdapter.detailTaskModel
-import com.google.android.material.textfield.TextInputEditText
-
 class BebanFragment : Fragment() {
 
     // --- DEKLARASI PROPERTI KELAS ---
@@ -97,67 +95,85 @@ class BebanFragment : Fragment() {
 //    Search Enginge
     private fun setupDrowdownAndListener() {
 
-        val namaKaryawan = originalKaryawanList.map { it.nama }.toMutableList()
+    val daftarKaryawanItem = originalKaryawanList.map { karyawan ->
 
+        KaryawanItems(namas = karyawan.nama)
+    }.toMutableList()
 
-        val SEMUA_KARYAWAN = "Semua Karyawan"
-        namaKaryawan.add(0, SEMUA_KARYAWAN)
+    val semuaKaryawanItem = KaryawanItems(namas = "Semua Karyawan", isChecked = true)
+    daftarKaryawanItem.add(0, semuaKaryawanItem)
 
+    val dropdownAdapter = KaryawanItemsAdapter(requireContext(), daftarKaryawanItem)
+    autoCompleteKaryawan.setAdapter(dropdownAdapter)
+    autoCompleteKaryawan.setText("Semua Karyawan", false)
 
-        val dropdownAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_nama_karyawan, R.id.list_namakaryawan , namaKaryawan)
-        autoCompleteKaryawan.setAdapter(dropdownAdapter)
+    autoCompleteKaryawan.setOnItemClickListener { parent, view, position, id ->
+        val adapter = parent.adapter as KaryawanItemsAdapter
+        val clickedItem = adapter.getItem(position) ?: return@setOnItemClickListener
+        clickedItem.isChecked = !clickedItem.isChecked
 
-        // Set listener
-        autoCompleteKaryawan.setOnItemClickListener { parent, view, position, id ->
-            val itemDipilih = parent.getItemAtPosition(position).toString()
-
-            performSearch(itemDipilih)
-
-        }
-
-        autoCompleteKaryawan.setOnEditorActionListener { textView, actionId, keyEvent ->
-
-            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH ||
-                actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE ||
-                    (keyEvent != null && keyEvent.action == android.view.KeyEvent.KEYCODE_ENTER && keyEvent.keyCode == android.view.KeyEvent.ACTION_DOWN)) {
-
-                val keyword = textView.text.toString()
-                performSearch(keyword)
-
-                val imm = context?.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as? android.view.inputmethod.InputMethodManager
-                imm?.hideSoftInputFromWindow(textView.windowToken, 0)
-
-                return@setOnEditorActionListener true
+        if (clickedItem.namas == "Semua Karyawan" && clickedItem.isChecked) {
+            adapter.items.forEach { item ->
+                if (item.namas != "Semua Karyawan") {
+                    item.isChecked = false
+                }
             }
-            return@setOnEditorActionListener false
+
+
+        } else if (clickedItem.namas != "Semua Karyawan" && clickedItem.isChecked) {
+            adapter.items.firstOrNull { it.namas == "Semua Karyawan" }?.let { semuaKaryawanItem ->
+                semuaKaryawanItem.isChecked = false
+            }
+        }
+
+
+        if (clickedItem.namas == "Semua Karyawan" && clickedItem.isChecked) {
+
+        }else if (clickedItem.namas != "Semua Karyawan" && clickedItem.isChecked) {
 
         }
+        updateFilterState(adapter)
+
+        autoCompleteKaryawan.showDropDown()
+    }
+
+}
+    private fun updateFilterState(adapter: KaryawanItemsAdapter) {
+        adapter.notifyDataSetChanged()
+
+        val checkedNames = adapter.items.filter {it.isChecked }.map { it.namas }
+        val summaryText: String
+
+        if (checkedNames.contains("Semua Karyawan") || checkedNames.isEmpty()){
+
+            summaryText = "Semua Karyawan"
+        performSearch(listOf("Semua Karyawan"))
+
+        }else {
+            summaryText = checkedNames.take(2).joinToString(", ") +
+                    if (checkedNames.size > 2) ", ..." else ""
+            performSearch(checkedNames)
+        }
+
+        autoCompleteKaryawan.setText(summaryText, false)
+
+        autoCompleteKaryawan.setSelection(summaryText.length)
     }
 
 //    Func Pencarian terpusat
 
-    private fun performSearch(keyword: String) {
-        val SEMUA_KARYAWAN = "Semua Karyawan"
+    private fun performSearch(namaKeyword: List<String>) {
+        val isShowingAll = namaKeyword.contains("Semua Karyawan") || namaKeyword.isEmpty()
 
-
-//        kalau keyword kosong atau "Semua Karyawan" Tampilkan semua
-
-        if (keyword.isBlank()|| keyword.equals(SEMUA_KARYAWAN, ignoreCase = true)){
-            adapterKaryawan.updateList(originalKaryawanList)
-        }else {
-//            Cari karyawan bedasarkan nama yang Mirip
-            val hasilPencarian = originalKaryawanList.filter {
-                it.nama.contains(keyword, ignoreCase = true)
-            }
-            if (hasilPencarian.isNotEmpty()) {
-                adapterKaryawan.updateList(hasilPencarian)
-            } else {
-//
-                adapterKaryawan.updateList(emptyList())
+        val hasilPencarian = if (isShowingAll) {
+            originalKaryawanList
+        } else {
+            originalKaryawanList.filter { karyawan ->
+                namaKeyword.contains(karyawan.nama)
             }
         }
+        adapterKaryawan.updateList(hasilPencarian)
     }
-
 
     private fun loadOriginalKaryawanData() {
         originalKaryawanList.clear()
@@ -202,6 +218,8 @@ class BebanFragment : Fragment() {
                 "Medium",
                 false)
         )
+
+
         val tasksRizqiAja = listOf(
             Task(
                 "Frontend dan backend",
@@ -248,7 +266,39 @@ class BebanFragment : Fragment() {
                 "cek stok",
                 detailListRizqiPutra2.size,
                 false,
-                detailListRizqiPutra2)
+                detailListRizqiPutra2
+            )
+
+//            Orang ke 3
+        )
+        val detailListRizqiAntono = listOf(
+            detailTaskModel (
+                "Create Splash Screen",
+                "Membuat splash screen di android",
+                "1 jam ",
+                "02/12/2025",
+                "PKL",
+                "On Going",
+                "Easy",
+                false
+            ),
+            detailTaskModel (
+                "Dashboard Karyawan",
+                "Membuat Dashboard Karyawan",
+                "3 jam ",
+                "02/12/2025",
+                "PKL",
+                "On Going",
+                "Easy",
+                false
+            )
+        )
+        val tasksRizqiAntono= listOf(
+            Task(
+                "Android Studio",
+                detailListRizqiAntono.size,
+                false,
+                detailListRizqiAntono),
         )
 
         // Tambahkan data ke daftar asli
@@ -267,11 +317,23 @@ class BebanFragment : Fragment() {
             Karyawan(
                 foto = R.drawable.profile,
                 nama = "Rizqi Aja",
-                keahlian = "Admin",
+                keahlian = "Onwer",
                 jamKerja = "8 Jam",
                 jumlahTask = tasksRizqiAja.size,
                 periode = "20 Nov 2025",
                 taskList = tasksRizqiAja
+            )
+        )
+
+        originalKaryawanList.add(
+            Karyawan(
+                foto = R.drawable.profile,
+                nama = "Rizqi Antono",
+                keahlian = "Member",
+                jamKerja = "8 Jam",
+                jumlahTask = tasksRizqiAntono.size,
+                periode = "20 Nov 2025",
+                taskList = tasksRizqiAntono
             )
         )
 
