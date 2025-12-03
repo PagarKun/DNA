@@ -1,5 +1,7 @@
 package com.fragment.dna
 
+import StatusKaryawan.StatusKaryawanAdapter
+import StatusKaryawan.StatusKaryawanModel
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,12 +29,12 @@ import retrofit2.Response
 class DashBoardFragment : Fragment() {
 
     private lateinit var recycleView: RecyclerView
-    private val dataList = ArrayList<MemberRequest>()
     private lateinit var adapter: AdapterClass
     private val fullList = ArrayList<MemberRequest>()
 
     // Deklarasi untuk semua View
     private lateinit var dropdownPosisi: AutoCompleteTextView
+    private lateinit var dropdownStatus: AutoCompleteTextView
     private lateinit var searchInput: EditText
     private lateinit var totalkaryawanText: TextView
 
@@ -46,16 +48,17 @@ class DashBoardFragment : Fragment() {
 
         recycleView = view.findViewById(R.id.recycleViews)
         dropdownPosisi = view.findViewById(R.id.autoComplete_posisi)
+        dropdownStatus = view.findViewById(R.id.autoComplete_Status)
         searchInput = view.findViewById(R.id.searchInput)
         totalkaryawanText = view.findViewById(R.id.jmlhkaryawan)
 
-        // 2. Setup RecyclerView
+        // 1. Setup RecyclerView
         setupRecyclerView()
 
-        // 3. Setup Listener untuk filter
+        // 2. Setup Listener untuk semua filter
         setupFilterListeners()
 
-        // 4. Panggil API
+        // 3. Panggil API
         fetchDataFromApi()
 
         return view
@@ -63,30 +66,31 @@ class DashBoardFragment : Fragment() {
 
     private fun setupRecyclerView() {
         recycleView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = AdapterClass(dataList) { item ->
+        // Inisialisasi adapter dengan list kosong, akan diisi nanti oleh API
+        adapter = AdapterClass(ArrayList()) { item ->
             showBottomSheetDetail(item)
         }
         recycleView.adapter = adapter
     }
 
     private fun setupFilterListeners() {
-        // Listener kotak pencarian nama
+        // Listener untuk kotak PENCARIAN NAMA
         searchInput.addTextChangedListener { text ->
-            // Ambil keyword dari teks yang diketik
             val keyword = text.toString()
 
-            // untuk mengakses status checkbox saat ini
-            val posisiAdapter = dropdownPosisi.adapter as? PosisiAdapter ?: return@addTextChangedListener
+            // Ambil status filter saat ini dari KEDUA dropdown
+            val posisiAdapter = dropdownPosisi.adapter as? PosisiAdapter
+            val statusAdapter = dropdownStatus.adapter as? StatusKaryawanAdapter
 
-            //semua posisi yang sedang tercentang
-            val checkedPositions = posisiAdapter.items.filter { it.isChecked }.map { it.nama }
+            val checkedPositions = posisiAdapter?.items?.filter { it.isChecked }?.map { it.nama }
+            val checkedStatuses = statusAdapter?.items?.filter { it.isChecked }?.map { it.status }
 
-            // filterData (multi-choice)
-            if (checkedPositions.contains("Semua Posisi") || checkedPositions.isEmpty()) {
-                filterData(keyword, listOf("Semua Posisi"))
-            } else {
-                filterData(keyword, checkedPositions)
-            }
+            // Panggil SATU filterData dengan semua info yang ada
+            filterData(
+                keyword,
+                checkedPositions ?: listOf("Semua Posisi"),
+                checkedStatuses ?: listOf("Semua Status")
+            )
         }
     }
 
@@ -107,11 +111,11 @@ class DashBoardFragment : Fragment() {
                     // Tampilkan semua data awal
                     adapter.filterList(fullList)
 
-                    // Update jumlah total karyawan
+                    // Update jumlah total karyawan awal
                     totalkaryawanText.text = "${fullList.size} Orang"
 
                     // Setup dropdown dengan data dari API
-                    setupPosisiDropdown(data)
+                    setupDropdowns(data)
 
                 } else {
                     Log.d("API_DATA", "Error body: ${response.errorBody()?.string()}")
@@ -124,89 +128,170 @@ class DashBoardFragment : Fragment() {
         })
     }
 
-    private fun setupPosisiDropdown(data: List<MemberRequest>) {
-        // daftar posisi
+    private fun setupDropdowns(data: List<MemberRequest>) {
+        // Ekstrak data unik untuk posisi dan status dari API
         val daftarNamaPosisi = data.mapNotNull { it.role }.distinct()
+        val daftarStatus = data.mapNotNull { it.status }.distinct()
 
-        // daftar String menjadi daftar PosisiItem
-        val daftarPosisiItem = daftarNamaPosisi.map { namaPosisi ->
-            PosisiItem(nama = namaPosisi, isChecked = false)
-        }.toMutableList()
+        // Buat daftar item untuk adapter Posisi
+        val daftarPosisiItem = daftarNamaPosisi.map { PosisiItem(it) }.toMutableList()
+        daftarPosisiItem.add(0, PosisiItem("Semua Posisi", true))
 
-        // opsi "Semua Posisi" default
-        daftarPosisiItem.add(0, PosisiItem(nama = "Semua Posisi", isChecked = true))
+        // Buat daftar item untuk adapter Status
+        val daftarStatusItem =
+            daftarStatus.map { StatusKaryawanModel(it, isChecked = false) }.toMutableList()
+        daftarStatusItem.add(0, StatusKaryawanModel("Semua Status", true))
 
-        val dropdownAdapter = PosisiAdapter(
+        // Inisialisasi Adapter untuk kedua dropdown
+        val dropdownAdapterPosisi =
+            PosisiAdapter(requireContext(), R.layout.dropdown_posisi_karyawan, daftarPosisiItem)
+        val dropdownAdapterStatus = StatusKaryawanAdapter(
             requireContext(),
             R.layout.dropdown_posisi_karyawan,
-            daftarPosisiItem
+            daftarStatusItem
         )
-        dropdownPosisi.setAdapter(dropdownAdapter)
 
-        // logika untuk (MULTI-CHOICE)
-        dropdownPosisi.setOnItemClickListener { parent, _, position, _ ->
-            val adapter = parent.adapter as PosisiAdapter
-            val clickedItem = adapter.getItem(position)
-            val allItems = adapter.items
+        dropdownPosisi.setAdapter(dropdownAdapterPosisi)
+        dropdownStatus.setAdapter(dropdownAdapterStatus)
 
-            //  Balik status centang item yang diklik
+        // Set teks awal untuk kedua dropdown
+        dropdownPosisi.setText("Semua Posisi", false)
+        dropdownStatus.setText("Semua Status", false)
+
+
+        // --- Listener untuk dropdown STATUS ---
+        dropdownStatus.setOnItemClickListener { parent, _, position, _ ->
+            val adapter = parent.adapter as StatusKaryawanAdapter
+            val clickedItem = adapter.getItem(position) ?: return@setOnItemClickListener
+
             clickedItem.isChecked = !clickedItem.isChecked
 
-            // Logika khusus "Semua Posisi"
-            val semuaPosisiItem = allItems.firstOrNull { it.nama == "Semua Posisi" }
-            if (clickedItem.nama == "Semua Posisi" && clickedItem.isChecked) {
-                allItems.forEach { if (it.nama != "Semua Posisi") it.isChecked = false }
-            } else if (clickedItem.nama != "Semua Posisi" && clickedItem.isChecked) {
-                semuaPosisiItem?.isChecked = false
+            // Logika "Semua Status"
+            if (clickedItem.status == "Semua Status" && clickedItem.isChecked) {
+                adapter.items.forEach { if (it.status != "Semua Status") it.isChecked = false }
+            } else if (clickedItem.status != "Semua Status" && clickedItem.isChecked) {
+                adapter.items.firstOrNull { it.status == "Semua Status" }?.isChecked = false
             }
             adapter.notifyDataSetChanged()
 
-            val checkedItems = allItems.filter { it.isChecked }
-            val checkedPositions = checkedItems.map { it.nama }
-
-            val summaryText: String
-            if (checkedPositions.contains("Semua Posisi") || checkedPositions.isEmpty()) {
-                summaryText = "Semua Posisi"
-                filterData(searchInput.text.toString(), listOf("Semua Posisi"))
-            } else {
-                summaryText = checkedPositions.take(2).joinToString(", ") +
-                        if (checkedPositions.size > 2) ", ..." else ""
-                filterData(searchInput.text.toString(), checkedPositions)
+            // Buat & tampilkan summary
+            val checkedItems = adapter.items.filter { it.isChecked }.map { it.status }
+            val summaryText = when {
+                checkedItems.contains("Semua Status") || checkedItems.isEmpty() -> "Semua Status"
+                else -> checkedItems.take(2)
+                    .joinToString(", ") + if (checkedItems.size > 2) ", ..." else ""
             }
+            dropdownStatus.setText(summaryText, false)
 
-            dropdownPosisi.setText(summaryText, false)
+            // Ambil data dari filter lain & panggil filterData pusat
+            val namaKeyword = searchInput.text.toString()
+            val posisiAdapter = dropdownPosisi.adapter as PosisiAdapter
+            val checkedPositions = posisiAdapter.items.filter { it.isChecked }.map { it.nama }
+
+            filterData(
+                namaKeyword,
+                checkedPositions.ifEmpty { listOf("Semua Posisi") },
+                checkedItems.ifEmpty { listOf("Semua Status") }
+            )
+
+            dropdownStatus.showDropDown()
         }
 
+        // --- Listener untuk dropdown POSISI ---
+        dropdownPosisi.setOnItemClickListener { parent, _, position, _ ->
+            val adapter = parent.adapter as PosisiAdapter
+            val clickedItem = adapter.getItem(position) ?: return@setOnItemClickListener
+
+            clickedItem.isChecked = !clickedItem.isChecked
+
+            // Logika "Semua Posisi"
+            if (clickedItem.nama == "Semua Posisi" && clickedItem.isChecked) {
+                adapter.items.forEach { if (it.nama != "Semua Posisi") it.isChecked = false }
+            } else if (clickedItem.nama != "Semua Posisi" && clickedItem.isChecked) {
+                adapter.items.firstOrNull { it.nama == "Semua Posisi" }?.isChecked = false
+            }
+            adapter.notifyDataSetChanged()
+
+            // Buat & tampilkan summary
+            val checkedItems = adapter.items.filter { it.isChecked }.map { it.nama }
+            val summaryText = when {
+                checkedItems.contains("Semua Posisi") || checkedItems.isEmpty() -> "Semua Posisi"
+                else -> checkedItems.take(2)
+                    .joinToString(", ") + if (checkedItems.size > 2) ", ..." else ""
+            }
+            dropdownPosisi.setText(summaryText, false)
+
+            // Ambil data dari filter lain & panggil filterData pusat
+            val namaKeyword = searchInput.text.toString()
+            val statusAdapter = dropdownStatus.adapter as StatusKaryawanAdapter
+            val checkedStatuses = statusAdapter.items.filter { it.isChecked }.map { it.status }
+
+            filterData(
+                namaKeyword,
+                checkedItems.ifEmpty { listOf("Semua Posisi") },
+                checkedStatuses.ifEmpty { listOf("Semua Status") }
+            )
+
+            dropdownPosisi.showDropDown()
+        }
     }
 
-    private fun filterData(namaKeyword: String, posisiKeywords: List<String>) {
+    // SATU-SATUNYA FUNGSI filterData YANG BENAR DAN LENGKAP
+    private fun filterData(
+        namaKeyword: String,
+        posisiKeywords: List<String>,
+        statusKeywords: List<String>
+    ) {
+        // Mulai dengan daftar lengkap setiap kali filter dipanggil
         var hasilFilter = fullList.toList()
 
-        // Filter berdasarkan NAMA
+        // 1. Filter berdasarkan NAMA
         if (namaKeyword.isNotBlank()) {
             hasilFilter = hasilFilter.filter { member ->
+                // Cari di nama asli ATAU display name.
                 val nameMatch = member.name.contains(namaKeyword, ignoreCase = true)
                 val usernameMatch = member.display_name.contains(namaKeyword, ignoreCase = true)
                 nameMatch || usernameMatch
             }
         }
 
-        // Filter Posisi (MULTI-CHOICE)
-        val isFilteringByPosition = !posisiKeywords.contains("Semua Posisi") && posisiKeywords.isNotEmpty()
-
+        // 2. Filter berdasarkan POSISI (Multi-choice)
+        val isFilteringByPosition =
+            !posisiKeywords.contains("Semua Posisi") && posisiKeywords.isNotEmpty()
         if (isFilteringByPosition) {
             hasilFilter = hasilFilter.filter { member ->
-                posisiKeywords.any { keyword -> member.role?.equals(keyword, ignoreCase = true) == true }
+                posisiKeywords.any { keyword ->
+                    member.role?.equals(
+                        keyword,
+                        ignoreCase = true
+                    ) == true
+                }
             }
         }
+
+        // 3. Filter berdasarkan STATUS (Multi-choice)
+        val isFilteringByStatus =
+            !statusKeywords.contains("Semua Status") && statusKeywords.isNotEmpty()
+        if (isFilteringByStatus) {
+            hasilFilter = hasilFilter.filter { member ->
+                statusKeywords.any { keyword ->
+                    member.status?.equals(
+                        keyword,
+                        ignoreCase = true
+                    ) == true
+                }
+            }
+        }
+
+        // Update adapter dan jumlah karyawan dengan hasil akhir
         adapter.filterList(hasilFilter)
+        totalkaryawanText.text = "${hasilFilter.size} Orang"
     }
 
     fun showBottomSheetDetail(item: MemberRequest) {
         val bottomSheet = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.popup_detail_karyawan, null)
 
-        // val img = view.findViewById<ImageView>(R.id.profileDetail) // Uncomment jika perlu
         val nama = view.findViewById<TextView>(R.id.namaDetail)
         val email = view.findViewById<TextView>(R.id.email_detail)
 

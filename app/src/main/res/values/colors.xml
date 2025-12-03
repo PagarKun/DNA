@@ -16,10 +16,12 @@
 
 
 <!--Kuning-->
-    <color name="kuning2">#EDF2A2 </color>
-    <color name="kuningdark">#EBD34E</color>
-    <color name="kuning3">#98662E</color>
     <color name="kuning">#E9F4F6EC</color>
+    <color name="kuning2">#EDF2A2 </color>
+    <color name="kuning3">#98662E</color>
+    <color name="kuningAmber">#FFC107</color>
+    <color name="kuningdark">#EBD34E</color>
+
 
 
 

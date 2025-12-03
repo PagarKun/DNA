@@ -122,7 +122,7 @@
                             android:padding="10dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Dropdown -->
+                    <!-- Dropdown Posisi -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/spinner_posisikaryawan"
                         android:layout_width="0dp"
@@ -147,9 +147,40 @@
                             android:hint="Posisi"
                             android:inputType="none"
                             android:padding="10dp"/>
+
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Card Jumlah -->
+                    <!-- Status Karyawan-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/Status_Karyawan_dropdown"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:endIconMode="dropdown_menu"
+                        app:boxBackgroundColor="@color/gray"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/blue"
+                        app:boxCornerRadiusTopStart="9dp"
+                        app:boxCornerRadiusTopEnd="9dp"
+                        app:boxCornerRadiusBottomStart="9dp"
+                        app:boxCornerRadiusBottomEnd="9dp"
+                        app:layout_constraintTop_toBottomOf="@id/spinner_posisikaryawan"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/autoComplete_Status"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Status"
+                            android:inputType="none"
+                            android:padding="10dp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                    <!-- Card Total Karyawan -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/jumlahKaryawan"
                         android:layout_width="0dp"
@@ -157,7 +188,7 @@
                         android:layout_marginTop="12dp"
                         android:backgroundTint="@color/birumuda"
                         app:cardCornerRadius="9dp"
-                        app:layout_constraintTop_toBottomOf="@id/spinner_posisikaryawan"
+                        app:layout_constraintTop_toBottomOf="@id/Status_Karyawan_dropdown"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:strokeColor="@color/blueterang12">

@@ -70,8 +70,9 @@ class BebanFragment : Fragment() {
         recycleViewBeban = view.findViewById(R.id.recycleViews_bebankerja)
         recycleViewBeban.layoutManager = GridLayoutManager(requireContext(), 2)
         bebanList = arrayListOf(
-            BebanClass("Total Karyawan", "0"),
+            BebanClass("Normal", "0"),
             BebanClass("Overload", "0"),
+            BebanClass("Underload", "0"),
         )
         bebanAdapter = BebanAdapter(bebanList)
         recycleViewBeban.adapter = bebanAdapter
@@ -348,17 +349,14 @@ class BebanFragment : Fragment() {
             override fun onResponse(call: Call<Todo>, response: Response<Todo>) {
                 if (response.isSuccessful) {
                     val data = response.body()?.users ?: emptyList()
-                    val totalKaryawan = data.size.toString()
                     val updatedList = arrayListOf(
-                        BebanClass("Total Karyawan", totalKaryawan),
-                        BebanClass("Overload", "2"),
                         BebanClass("Normal", "2"),
-                        BebanClass("Underload", "2"),
-                        BebanClass("Rata-Rata Jam", "128 Jam"),
-                        BebanClass("Yang akan datang", "128 Jam")
+                        BebanClass("Overload", "2"),
+                        BebanClass("Underload", "2")
                     )
-                    fullList.clear()
-                    fullList.addAll(data)
+
+                    bebanList.clear()
+                    bebanList.addAll(updatedList)
                     dataList.clear()
                     dataList.addAll(data)
 

@@ -27,6 +27,7 @@ class AdapterClass(
         val image: ImageView = itemView.findViewById(R.id.profileImage)
         val nama: TextView = itemView.findViewById(R.id.namakaryawan2)
         val keahlian: TextView = itemView.findViewById(R.id.keahlian)
+        val statuskaryawan : TextView = itemView.findViewById(R.id.Status_karyawan)
 
 
 
@@ -44,6 +45,8 @@ class AdapterClass(
 
         holder.nama.text = item.name
         holder.keahlian.text = item.role
+        holder.statuskaryawan.text = item.status
+
         Glide.with(holder.image.context)
             .load(BASE_URL + item.photo?.removePrefix("/"))
             .error(R.drawable.profile)

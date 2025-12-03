@@ -8,5 +8,6 @@ data class MemberRequest(
     val display_name: String,
     val name: String,
     val photo: String?,
-    val role: String?
+    val role: String?,
+    val status: String?
 )
