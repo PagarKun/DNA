@@ -32,7 +32,7 @@ class DashBoardFragment : Fragment() {
     private lateinit var adapter: AdapterClass
     private val fullList = ArrayList<MemberRequest>()
 
-    // Deklarasi untuk semua View
+    // Deklarasi semua View
     private lateinit var dropdownPosisi: AutoCompleteTextView
     private lateinit var dropdownStatus: AutoCompleteTextView
     private lateinit var searchInput: EditText
@@ -52,13 +52,13 @@ class DashBoardFragment : Fragment() {
         searchInput = view.findViewById(R.id.searchInput)
         totalkaryawanText = view.findViewById(R.id.jmlhkaryawan)
 
-        // 1. Setup RecyclerView
+        //  Setup RecyclerView
         setupRecyclerView()
 
-        // 2. Setup Listener untuk semua filter
+        //  Setup Listener untuk semua filter
         setupFilterListeners()
 
-        // 3. Panggil API
+        //  Panggil API
         fetchDataFromApi()
 
         return view
@@ -245,17 +245,17 @@ class DashBoardFragment : Fragment() {
         // Mulai dengan daftar lengkap setiap kali filter dipanggil
         var hasilFilter = fullList.toList()
 
-        // 1. Filter berdasarkan NAMA
+        //  Filter berdasarkan NAMA
         if (namaKeyword.isNotBlank()) {
             hasilFilter = hasilFilter.filter { member ->
                 // Cari di nama asli ATAU display name.
-                val nameMatch = member.name.contains(namaKeyword, ignoreCase = true)
-                val usernameMatch = member.display_name.contains(namaKeyword, ignoreCase = true)
+                val nameMatch = member.name?.contains(namaKeyword, ignoreCase = true)?: false
+                val usernameMatch = member.display_name?.contains(namaKeyword, ignoreCase = true)?: false
                 nameMatch || usernameMatch
             }
         }
 
-        // 2. Filter berdasarkan POSISI (Multi-choice)
+        //  Filter berdasarkan POSISI (Multi-choice)
         val isFilteringByPosition =
             !posisiKeywords.contains("Semua Posisi") && posisiKeywords.isNotEmpty()
         if (isFilteringByPosition) {
@@ -269,7 +269,7 @@ class DashBoardFragment : Fragment() {
             }
         }
 
-        // 3. Filter berdasarkan STATUS (Multi-choice)
+        // Filter berdasarkan STATUS (Multi-choice)
         val isFilteringByStatus =
             !statusKeywords.contains("Semua Status") && statusKeywords.isNotEmpty()
         if (isFilteringByStatus) {

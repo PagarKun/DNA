@@ -377,7 +377,7 @@ class BebanFragment : Fragment() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         DatePickerDialog(requireContext(), { _, y, m, d ->
-            tanggal.setText("$d/${m + 1}/$y")
+            tanggal.setText("$y/${m + 1}/$d")
         }, year, month, day).show()
     }
     private fun showdatePicker_akhir(tanggal_akhir: EditText) {
