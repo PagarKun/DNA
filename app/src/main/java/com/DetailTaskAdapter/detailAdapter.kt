@@ -10,6 +10,8 @@ import com.Adapter.detailBeban
 import com.example.dna.R
 import com.Adapter.detailBebanAdapter
 import java.util.zip.Inflater
+import com.RangeAPI.Task
+
 
 class detailAdapter(private val datadata: List<detailTaskModel>)
     : RecyclerView.Adapter<detailAdapter.detailTaskViewHolder>(){
@@ -40,7 +42,7 @@ class detailAdapter(private val datadata: List<detailTaskModel>)
         holder: detailAdapter.detailTaskViewHolder,
         position: Int
     ) {
-       val data = datadata [position]
+        val data = datadata[position]
 
         holder.judul.text = data.judul
         holder.desc.text = data.desc
@@ -49,9 +51,8 @@ class detailAdapter(private val datadata: List<detailTaskModel>)
         holder.project.text = data.project
         holder.progress.text = data.progress
         holder.level.text = data.level
-
-
     }
+
 
     override fun getItemCount(): Int = datadata.size
 

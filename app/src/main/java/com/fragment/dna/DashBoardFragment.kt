@@ -250,7 +250,7 @@ class DashBoardFragment : Fragment() {
             hasilFilter = hasilFilter.filter { member ->
                 // Cari di nama asli ATAU display name.
                 val nameMatch = member.name?.contains(namaKeyword, ignoreCase = true)?: false
-                val usernameMatch = member.display_name?.contains(namaKeyword, ignoreCase = true)?: false
+                val usernameMatch = member.email?.contains(namaKeyword, ignoreCase = true)?: false
                 nameMatch || usernameMatch
             }
         }
@@ -296,7 +296,7 @@ class DashBoardFragment : Fragment() {
         val email = view.findViewById<TextView>(R.id.email_detail)
 
         nama.text = item.name
-        email.text = item.display_name
+        email.text = item.email
 
         bottomSheet.setContentView(view)
         bottomSheet.behavior.peekHeight = 900

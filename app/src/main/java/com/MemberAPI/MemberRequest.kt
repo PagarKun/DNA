@@ -5,7 +5,7 @@ data class Todo (
 )
 data class MemberRequest(
     val id: Int?,
-    val display_name: String,
+    val email: String,
     val name: String,
     val photo: String?,
     val role: String?,

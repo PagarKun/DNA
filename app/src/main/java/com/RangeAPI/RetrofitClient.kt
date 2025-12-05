@@ -1,34 +1,31 @@
-package com.LoginAPI
+package com.RangeAPI
 
-import com.LoginAPI.ApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://go-kinerja-backend-production.up.railway.app/api/v1/"
+    private const val base_url = "https://go-kinerja-backend-production.up.railway.app/api/v1/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
+    // Menambahkan interceptor ke OkHttpClient
     private val client = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
-        .connectTimeout(100,TimeUnit.SECONDS)
-        .readTimeout(100, TimeUnit.SECONDS)
-        .writeTimeout(100,TimeUnit.SECONDS)
         .build()
 
     val instance: ApiService by lazy {
         val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(base_url)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
 
         retrofit.create(ApiService::class.java)
+
     }
 }

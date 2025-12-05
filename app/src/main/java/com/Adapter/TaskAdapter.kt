@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.Adapter.Task
@@ -35,14 +36,14 @@ class TaskAdapter(private val taskList: List<Task>)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = taskList[position]
 
-        // 1. Ambil data Tingkat 2 dan set judul
+        // INI SUDAH BENAR SESUAI DATA CLASS ANDA
         holder.namaTask.text = data.judul
 
-        // 2. Ambil LIST DETAIL TUGAS YANG UNIK (Tingkat 3)
+        // INI JUGA SUDAH BENAR SESUAI DATA CLASS ANDA
         val uniqueDetailData = data.detailTaskList
 
         // 3. Set Adapter Tingkat 3 dengan data UNIK
-        holder.rvTask.layoutManager = LinearLayoutManager (holder.itemView.context)
+        holder.rvTask.layoutManager = LinearLayoutManager(holder.itemView.context)
         holder.rvTask.adapter = detailAdapter(uniqueDetailData)
 
         // 4. Logic expand/collapse
@@ -53,6 +54,8 @@ class TaskAdapter(private val taskList: List<Task>)
             notifyItemChanged(position)
         }
     }
+
+
 
     override fun getItemCount(): Int = taskList.size
 }

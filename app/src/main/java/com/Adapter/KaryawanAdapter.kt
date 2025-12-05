@@ -13,8 +13,7 @@ import com.example.dna.R
 import com.google.android.material.card.MaterialCardView
 
 class KaryawanAdapter(
-    private val listKaryawan: MutableList<Karyawan>,
-    private val detailbeban: List<detailBeban>
+    private val listKaryawan: MutableList<Karyawan> // <-- HANYA SATU PARAMETER
 ) : RecyclerView.Adapter<KaryawanAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -52,7 +51,6 @@ class KaryawanAdapter(
         holder.foto.setImageResource(data.foto)
         holder.nama.text = data.nama
         holder.keahlian.text = data.keahlian
-        holder.departemen.text = data.departemen
 
 
 
