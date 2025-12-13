@@ -14,9 +14,10 @@ import com.Adapter.Task
 import com.DetailTaskAdapter.detailTaskModel
 import com.example.dna.R
 import com.DetailTaskAdapter.detailAdapter
+import com.RangeAPI.Assignee
 
 
-class TaskAdapter(private val taskList: List<Task>)
+class TaskAdapter(private val taskList: List<Task>, private val assigneeList: List<AssigneeClass>)
     : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,17 +37,15 @@ class TaskAdapter(private val taskList: List<Task>)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = taskList[position]
 
-        // INI SUDAH BENAR SESUAI DATA CLASS ANDA
+
         holder.namaTask.text = data.judul
 
-        // INI JUGA SUDAH BENAR SESUAI DATA CLASS ANDA
         val uniqueDetailData = data.detailTaskList
 
-        // 3. Set Adapter Tingkat 3 dengan data UNIK
         holder.rvTask.layoutManager = LinearLayoutManager(holder.itemView.context)
         holder.rvTask.adapter = detailAdapter(uniqueDetailData)
 
-        // 4. Logic expand/collapse
+
         holder.layoutExpandable.visibility = if (data.isExpanded) View.VISIBLE else View.GONE
         holder.arrowdetailTask.rotation = if (data.isExpanded) 180f else 0f
         holder.isExpandedArrow.setOnClickListener {

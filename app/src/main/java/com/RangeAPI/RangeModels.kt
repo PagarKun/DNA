@@ -1,6 +1,8 @@
 package com.RangeAPI
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 
 data class RangeApiResponse(
@@ -11,6 +13,7 @@ data class RangeApiResponse(
     val assignees: List<Assignee>?
 )
 
+@Parcelize
 data class Assignee(
     @SerializedName("clickup_id")
     val clickupId: Long?,
@@ -24,12 +27,23 @@ data class Assignee(
     @SerializedName("name")
     val name: String?,
 
+    @SerializedName("total_spent_hours")
+    val totalSpentHours: Int?,
+
+    @SerializedName("expected_hours")
+    val expectedHours: Int?,
+
+    @SerializedName("actual_work_hours")
+    val actualWorkHours: Int?,
+
+    @SerializedName("total_tasks")
+    val totalTask: Int?,
 
     @SerializedName("tasks")
     val tasks: List<Task>?
-)
+): Parcelable
 
-
+@Parcelize
 data class Task(
     @SerializedName("id")
     val id: String?,
@@ -38,7 +52,13 @@ data class Task(
     val name: String?,
 
     @SerializedName("description")
-    val Deskripsi: String?,
+    val deskripsi: String?,
+
+    @SerializedName("priority")
+    val priority: String?,
+
+    @SerializedName("project_name")
+    val projectName: String?,
 
     @SerializedName("status_name")
     val statusName: String?,
@@ -60,4 +80,4 @@ data class Task(
 
     @SerializedName("time_spent_hours")
     val timeSpentHours: Int?
-)
+): Parcelable

@@ -9,9 +9,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dna.R
 import com.google.android.material.card.MaterialCardView
-
 class detailBebanAdapter(
     private val allData: List<detailBeban>,
+    private val onItemClick: (detailBeban) -> Unit // Lambda untuk callback saat item diklik
 ) : RecyclerView.Adapter<detailBebanAdapter.detailViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): detailViewHolder {
@@ -23,20 +23,21 @@ class detailBebanAdapter(
     override fun onBindViewHolder(holder: detailViewHolder, position: Int) {
         val data = allData[position]
 
-        holder.judul
+        holder.judul.text = data.judul
         holder.detailjam.text = data.totaljam
         holder.detailtask.text = data.totaltask
         holder.detailgambar.setImageResource(data.gambar)
 
-        val card = holder.itemView as MaterialCardView
+        val card = holder.card
 
         val bgcolors = listOf(
             ContextCompat.getColor(card.context, R.color.blue3),
             ContextCompat.getColor(card.context, R.color.gray),
-
-
-            )
+        )
         card.setCardBackgroundColor(bgcolors[position % bgcolors.size])
+        holder.itemView.setOnClickListener {
+            onItemClick(data)
+        }
     }
 
     override fun getItemCount(): Int = allData.size
@@ -46,7 +47,6 @@ class detailBebanAdapter(
         val detailjam: TextView = itemView.findViewById(R.id.total_jam_kerja_aktif)
         val detailtask: TextView = itemView.findViewById(R.id.total_task_kerja_aktif)
         val detailgambar: ImageView = itemView.findViewById(R.id.gambardetail)
-        val card: MaterialCardView = itemView.findViewById(R.id.card_beban)
-
+        val card: MaterialCardView = itemView.findViewById(R.id.card_beban) // ID CardView utama
     }
 }

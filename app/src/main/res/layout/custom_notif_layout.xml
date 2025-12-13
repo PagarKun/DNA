@@ -8,6 +8,7 @@
     android:layout_marginEnd="16dp"
     android:layout_marginBottom="16dp"
     android:layout_marginTop="40dp"
+    app:strokeColor="@android:color/transparent"
     app:cardElevation="8dp"
     app:cardCornerRadius="8dp">
 
@@ -24,8 +25,9 @@
             android:id="@+id/notif_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:backgroundTint="@android:color/transparent"
             android:src="@drawable/check"
-            app:tint="@color/hijau4"/>
+            />
 
         <TextView
             android:id="@+id/notif_text"

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.DNA"
         android:usesCleartextTraffic="true">
         <activity
+            android:name="com.fragment.dna.DetailTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".DashBoardActivity"
             android:exported="false" />
         <activity

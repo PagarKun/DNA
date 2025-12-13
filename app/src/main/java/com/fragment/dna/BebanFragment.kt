@@ -1,6 +1,7 @@
 package com.fragment.dna
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -37,7 +38,7 @@ class BebanFragment : Fragment() {
     private lateinit var adapterKaryawan: KaryawanAdapter
     private val originalKaryawanList = mutableListOf<Karyawan>()
     private lateinit var autoCompleteKaryawan: AutoCompleteTextView
-    private val apiDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+    private val apiDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
     private var currentStartDate: String = ""
     private var currentEndDate: String = ""
     private lateinit var tanggal: EditText
@@ -66,24 +67,51 @@ class BebanFragment : Fragment() {
         recycleViewBeban.adapter = bebanAdapter
 
         recyclerViewKaryawan = view.findViewById(R.id.rvkaryawan)
+
+//        DetailTaskActivity
         recyclerViewKaryawan.layoutManager = LinearLayoutManager(requireContext())
-        adapterKaryawan = KaryawanAdapter(mutableListOf())
+        adapterKaryawan = KaryawanAdapter(mutableListOf()) { karyawan ->
+
+            val detailFragment = DetailTaskFragment()
+            val bundle = Bundle()
+
+            bundle.putString("EXTRA_NAMA",karyawan.nama)
+            bundle.putString("EXTRA_KEAHLIAN",karyawan.keahlian)
+
+            val detailTask = ArrayList(karyawan.taskList.flatMap { it.detailTaskList })
+            bundle.putParcelableArrayList("EXTRA_TASK", detailTask)
+            detailFragment.arguments = bundle
+
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fragmentContainer, detailFragment)
+                addToBackStack(null)
+                commit()
+            }
+
+        }
         recyclerViewKaryawan.adapter = adapterKaryawan
+
+
         autoCompleteKaryawan = view.findViewById(R.id.cariNama)
 
         val cal = Calendar.getInstance()
 
         cal.set(Calendar.DAY_OF_MONTH, 1)
         currentStartDate = apiDateFormat.format(cal.time)
-        tanggal.setText(SimpleDateFormat("d/M/yyyy", Locale.US).format(cal.time))
+        tanggal.setText(SimpleDateFormat("d/M/yyyy", Locale.ENGLISH).format(cal.time))
 
         cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH))
         currentEndDate = apiDateFormat.format(cal.time)
-        tanggal_akhir.setText(SimpleDateFormat("d/M/yyyy", Locale.US).format(cal.time))
+        tanggal_akhir.setText(SimpleDateFormat("d/M/yyyy", Locale.ENGLISH).format(cal.time))
 
         fetchDataFromRangeApi()
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fetchDataFromRangeApi()
     }
 
     private fun setupDrowdownAndListener() {
@@ -174,24 +202,36 @@ class BebanFragment : Fragment() {
                     originalKaryawanList.addAll(karyawanListFromApi)
                     adapterKaryawan.updateList(originalKaryawanList)
                     setupDrowdownAndListener()
-//                    updateBebanSummary(originalKaryawanList)
+
                 } else {
                     Log.e("BebanFragment", "API Error Response: ${response.code()} - ${response.message()}")
                     Log.e("BebanFragment", "Error Body: ${response.errorBody()?.string()}")
+
+                    val dummyList = getDummyKaryawanList()
+                    originalKaryawanList.clear()
+                    originalKaryawanList.addAll(dummyList)
+                    adapterKaryawan.updateList(originalKaryawanList)
+                    setupDrowdownAndListener()
                 }
             }
 
             override fun onFailure(call: Call<RangeApiResponse>, t: Throwable) {
                 Log.e("BebanFragment", "API Failure: ${t.message}", t)
+
+
+                val dummyList = getDummyKaryawanList()
+                originalKaryawanList.clear()
+                originalKaryawanList.addAll(dummyList)
+                adapterKaryawan.updateList(originalKaryawanList)
+                setupDrowdownAndListener()
             }
         })
     }
 
     private fun mapAssigneesToKaryawan(assignees: List<Assignee>): List<Karyawan> {
         return assignees.map { assignee ->
-            val detailTasks = assignee.tasks?.map { apiTask ->
-                mapApiTaskToDetailTaskModel(apiTask)
-            } ?: emptyList()
+
+            val detailTasks = assignee.tasks ?: emptyList()
 
             val tasksForKaryawan = listOf(
                 Task(
@@ -209,23 +249,15 @@ class BebanFragment : Fragment() {
                 jamKerja = "${assignee.tasks?.sumOf { it.timeEstimateHours ?: 0 } ?: 0} Jam",
                 jumlahTask = tasksForKaryawan.size,
                 periode = "Desember 2025",
-                taskList = tasksForKaryawan
+                taskList = tasksForKaryawan,
+                totalTaskFromApi = assignee.totalTask ?: 0,
+                totalSpentHoursFromApi = assignee.totalSpentHours ?: 0,
+                totalActualHoursFormApi = assignee.actualWorkHours ?: 0
             )
         }
     }
 
-    private fun mapApiTaskToDetailTaskModel(apiTask: ApiTask): detailTaskModel {
-        return detailTaskModel(
-            judul = apiTask.name ?: "Tanpa Judul",
-            desc = apiTask.Deskripsi ?: "Tidak ada deskripsi",
-            jam = "${apiTask.timeEstimateHours?.toString() ?: "0"} Jam",
-            tanggal = apiTask.startDate ?: "-",
-            project = "ClickUp",
-            progress = apiTask.statusName ?: "Unknown",
-            level = "Normal",
-            isExpanded = false
-        )
-    }
+
 
 //    private fun updateBebanSummary(karyawanList: List<Karyawan>) {
 //        val normalCount = karyawanList.count {
@@ -249,41 +281,114 @@ class BebanFragment : Fragment() {
 //        bebanAdapter.updateData(updatedList)
 //    }
 
+    private fun getDummyKaryawanList(): List<Karyawan> {
+        Log.d("BebanFragment", "API call failed. Generating dummy data.")
+
+
+        val dummyApiTask1 = ApiTask(
+            id = "dummy-01", name = "Contoh: Menganalisis data penjualan",
+            deskripsi = "Menganalisis data penjualan kuartal terakhir untuk menemukan tren.",
+            priority = "okeje",
+            timeSpentHours = 8, startDate = "2025-12-01",
+            statusName = "In Progress",
+            projectName = "Skibidi",
+            dueDate = null,
+            dateDone = null,
+            timeEstimateHours = 10,
+            timeEstimate = null
+        )
+        val dummyApiTask2 = ApiTask(
+            id = "dummy-02", name = "Contoh: Membuat laporan bulanan",
+            deskripsi = "Menyusun laporan performa bulanan untuk manajemen.",
+            priority = "okeje",
+            timeSpentHours = 4,
+            startDate = "2025-12-03",
+            statusName = "To Do",
+            projectName = "Skibidi",
+            dueDate = null,
+            dateDone = null,
+            timeEstimateHours = 5,
+            timeEstimate = null
+        )
+
+        val dummyTaskList = listOf(
+            Task(
+                judul = "Semua Tugas",
+                jumlahTask = 2,
+                isExpanded = false,
+                detailTaskList = listOf(dummyApiTask1, dummyApiTask2)
+            )
+        )
+
+        val karyawanDummy1 = Karyawan(
+            foto = R.drawable.profile,
+            nama = "(Dummy)",
+            keahlian = "Pengembang Aplikasi",
+            jamKerja = "12 Jam",
+            jumlahTask = 1,
+            periode = "Desember 2025",
+            taskList = dummyTaskList,
+            totalTaskFromApi = 2,
+            totalSpentHoursFromApi = 16,
+            totalActualHoursFormApi = 0
+
+        )
+
+        return listOf(karyawanDummy1)
+    }
+
+
     private fun showdatePicker(tanggalEditText: EditText) {
         val cal = Calendar.getInstance()
         if (tanggalEditText.text.isNotEmpty()) {
             try {
-                val date = SimpleDateFormat("d/M/yyyy", Locale.US).parse(tanggalEditText.text.toString())
+                val date = SimpleDateFormat("d/M/yyyy", Locale.ENGLISH).parse(tanggalEditText.text.toString())
                 if (date != null) cal.time = date
             } catch (e: Exception) {
 
             }
         }
 
-        DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
-            val selectedDate = Calendar.getInstance().apply { set(year, month, dayOfMonth) }
-            tanggalEditText.setText(SimpleDateFormat("d/M/yyyy", Locale.US).format(selectedDate.time))
-            currentStartDate = apiDateFormat.format(selectedDate.time)
-            fetchDataFromRangeApi()
-        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+        DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                val selectedDate = Calendar.getInstance().apply {
+                    set(year, month, dayOfMonth)
+                }
+                tanggalEditText.setText(SimpleDateFormat("d/M/yyyy", Locale.ENGLISH).format(selectedDate.time))
+                currentStartDate = apiDateFormat.format(selectedDate.time)
+                fetchDataFromRangeApi()
+            },
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     private fun showdatePicker_akhir(tanggalEditText: EditText) {
         val cal = Calendar.getInstance()
         if (tanggalEditText.text.isNotEmpty()) {
             try {
-                val date = SimpleDateFormat("d/M/yyyy", Locale.US).parse(tanggalEditText.text.toString())
+                val date = SimpleDateFormat("d/M/yyyy", Locale.ENGLISH).parse(tanggalEditText.text.toString())
                 if (date != null) cal.time = date
             } catch (e: Exception) {
-
             }
         }
 
-        DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
-            val selectedDate = Calendar.getInstance().apply { set(year, month, dayOfMonth) }
-            tanggalEditText.setText(SimpleDateFormat("d/M/yyyy", Locale.US).format(selectedDate.time))
-            currentEndDate = apiDateFormat.format(selectedDate.time)
-            fetchDataFromRangeApi()
-        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+        DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                val selectedDate = Calendar.getInstance().apply {
+
+                    set(year, month, dayOfMonth)
+                }
+                tanggalEditText.setText(SimpleDateFormat("d/M/yyyy", Locale.ENGLISH).format(selectedDate.time))
+                currentEndDate = apiDateFormat.format(selectedDate.time)
+                fetchDataFromRangeApi()
+            },
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 }

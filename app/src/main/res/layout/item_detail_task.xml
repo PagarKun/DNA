@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="9dp"
+    android:layout_marginBottom="10dp"
     app:cardCornerRadius="16dp"
-    app:strokeColor="@color/gray"
+    app:strokeColor="@color/abuabu2"
     app:strokeWidth="1dp"
-    android:backgroundTint="@color/white">
+    android:backgroundTint="@color/white2">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,47 +46,71 @@
 
                 </LinearLayout>
 
-                <!-- BADGE STATUS -->
-                <LinearLayout
-                    android:id="@+id/layout_status"
+            </LinearLayout>
+
+            <!-- BADGE STATUS -->
+            <LinearLayout
+                android:id="@+id/layout_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                >
+
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:backgroundTint="@color/blue2"
+                    app:cardCornerRadius="8dp"
+                    android:layout_marginEnd="6dp">
 
-                    <com.google.android.material.card.MaterialCardView
+                    <TextView
+                        android:id="@+id/tv_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/blue2"
-                        app:cardCornerRadius="8dp"
-                        android:layout_marginEnd="6dp">
+                        android:text="Selesai"
+                        android:textStyle="bold"
+                        android:textColor="@color/darkblue"
+                        android:padding="6dp"/>
+                </com.google.android.material.card.MaterialCardView>
 
-                        <TextView
-                            android:id="@+id/tv_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Selesai"
-                            android:textStyle="bold"
-                            android:textColor="@color/darkblue"
-                            android:padding="6dp"/>
-                    </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/red2"
+                    android:layout_marginEnd="6dp"
+                    app:cardCornerRadius="8dp">
 
-                    <com.google.android.material.card.MaterialCardView
+                    <TextView
+                        android:id="@+id/tv_priority"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/red2"
-                        app:cardCornerRadius="8dp">
+                        android:text="High"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:padding="6dp"/>
+                </com.google.android.material.card.MaterialCardView>
 
-                        <TextView
-                            android:id="@+id/tv_priority"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="High"
-                            android:textStyle="bold"
-                            android:textColor="@color/white"
-                            android:padding="6dp"/>
-                    </com.google.android.material.card.MaterialCardView>
-                </LinearLayout>
+                <!-- Chip Project -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="8dp"
+                    android:backgroundTint="@android:color/transparent"
+                    app:strokeColor="@color/blueterang12">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_project"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:text="Project Name"
+                        android:textColor="@color/darkblue"/>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
             <!-- Deskripsi -->
@@ -103,7 +128,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:layout_marginBottom="5dp">
+
 
                 <ImageView
                     android:src="@drawable/jam"
@@ -113,11 +140,27 @@
                     app:tint="@color/black2"/>
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Waktu Pengerjaan :"/>
+
+                <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="32 Jam"
                     android:layout_marginEnd="10dp"/>
+
+            </LinearLayout>
+
+
+            <!--Tanggal Mulai-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="5dp">
 
                 <ImageView
                     android:src="@drawable/calender"
@@ -127,32 +170,72 @@
                     app:tint="@color/black2"/>
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tanggal Mulai :"/>
+
+                <TextView
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15/9/2025"/>
+
             </LinearLayout>
 
-            <!-- Chip Project -->
-            <com.google.android.material.card.MaterialCardView
+            <!--Deadline-->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="8dp"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="@android:color/transparent"
-                app:strokeColor="@color/blueterang12">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="5dp">
+
+                <ImageView
+                    android:src="@drawable/calender"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="4dp"
+                    app:tint="@color/black2"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_project"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:text="Project Name"
-                    android:textColor="@color/darkblue"/>
-            </com.google.android.material.card.MaterialCardView>
+                    android:text="Deadline :"/>
+
+                <TextView
+                    android:id="@+id/tv_date_deadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15/9/2025"/>
+
+            </LinearLayout>
+
+            <!--Pengumpulan-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:src="@drawable/calender"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="4dp"
+                    app:tint="@color/black2"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pengumpulan :"/>
+
+                <TextView
+                    android:id="@+id/tv_date_selesai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15/9/2025"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
