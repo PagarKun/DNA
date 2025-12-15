@@ -183,7 +183,7 @@
                             app:boxCornerRadiusBottomEnd="9dp"
                             app:boxStrokeColor="@color/blue"
                             app:startIconDrawable="@drawable/srcicon"
-                            app:layout_constraintTop_toBottomOf="@id/spinner"
+                            app:layout_constraintTop_toBottomOf="@id/spinner_status"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent">
 
@@ -219,6 +219,34 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Posisi Karyawan"
+                                android:padding="10dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <!-- Dropdown Posisi -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/spinner_status"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:boxBackgroundColor="@color/gray"
+                            app:boxBackgroundMode="outline"
+                            app:boxCornerRadiusTopStart="9dp"
+                            app:boxCornerRadiusTopEnd="9dp"
+                            app:boxCornerRadiusBottomStart="9dp"
+                            app:boxCornerRadiusBottomEnd="9dp"
+                            app:boxStrokeColor="@color/blue"
+                            app:endIconMode="dropdown_menu"
+                            app:layout_constraintTop_toBottomOf="@id/spinner"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/indicator_karyawan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Status Karyawan"
                                 android:padding="10dp" />
                         </com.google.android.material.textfield.TextInputLayout>
 

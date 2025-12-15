@@ -294,9 +294,11 @@ class DashBoardFragment : Fragment() {
 
         val nama = view.findViewById<TextView>(R.id.namaDetail)
         val email = view.findViewById<TextView>(R.id.email_detail)
+        val keahlian = view.findViewById<TextView>(R.id.keahlianDetail)
 
         nama.text = item.name
         email.text = item.email
+        keahlian.text = item.role
 
         bottomSheet.setContentView(view)
         bottomSheet.behavior.peekHeight = 900

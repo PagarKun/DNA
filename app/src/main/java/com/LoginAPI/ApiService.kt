@@ -10,6 +10,6 @@ interface ApiService {
     @POST("auth/login")
     fun login(@Body request: LoginRequest): Call<LoginResponse>
 
-    @POST("clickup/sync-all") //
+    @POST("sync/all") //
     suspend fun syncClickUpData(): Response<Unit>
 }

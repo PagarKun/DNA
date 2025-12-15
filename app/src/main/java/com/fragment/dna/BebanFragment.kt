@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import androidx.core.graphics.green
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -74,21 +75,18 @@ class BebanFragment : Fragment() {
 
             val detailFragment = DetailTaskFragment()
             val bundle = Bundle()
-
-            bundle.putString("EXTRA_NAMA",karyawan.nama)
-            bundle.putString("EXTRA_KEAHLIAN",karyawan.keahlian)
-
-            val detailTask = ArrayList(karyawan.taskList.flatMap { it.detailTaskList })
-            bundle.putParcelableArrayList("EXTRA_TASK", detailTask)
+            bundle.putInt("EMPLOYEE_ID", karyawan.id)
+            bundle.putString("START_DATE", currentStartDate)
+            bundle.putString("END_DATE", currentEndDate)
             detailFragment.arguments = bundle
 
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fragmentContainer, detailFragment)
+                replace(R.id.fragmentContainer, detailFragment) // Pastikan ID container-mu benar
                 addToBackStack(null)
                 commit()
             }
-
         }
+
         recyclerViewKaryawan.adapter = adapterKaryawan
 
 
@@ -105,14 +103,9 @@ class BebanFragment : Fragment() {
         tanggal_akhir.setText(SimpleDateFormat("d/M/yyyy", Locale.ENGLISH).format(cal.time))
 
         fetchDataFromRangeApi()
-
         return view
     }
 
-    override fun onResume() {
-        super.onResume()
-        fetchDataFromRangeApi()
-    }
 
     private fun setupDrowdownAndListener() {
         val daftarKaryawanItem = originalKaryawanList.map { karyawan ->
@@ -231,28 +224,37 @@ class BebanFragment : Fragment() {
     private fun mapAssigneesToKaryawan(assignees: List<Assignee>): List<Karyawan> {
         return assignees.map { assignee ->
 
-            val detailTasks = assignee.tasks ?: emptyList()
 
-            val tasksForKaryawan = listOf(
-                Task(
-                    judul = "Semua Tugas",
-                    jumlahTask = detailTasks.size,
-                    isExpanded = false,
-                    detailTaskList = detailTasks
-                )
-            )
+            val percentageValue = assignee.onTimePercentage ?: 0.0F
+
+            val backgroundColorResource : Int
+            val textColorAndImageResource: Int
+
+             if (percentageValue < 80.0F) {
+                backgroundColorResource = R.color.red3
+                textColorAndImageResource = R.color.red
+            } else {
+                 backgroundColorResource = R.color.hijau3
+                 textColorAndImageResource = R.color.hijaugelap
+            }
+
+            val onTimePercentageString = String.format("%.0f%%", percentageValue)
+
 
             Karyawan(
+                id = assignee.clickupId ?: 0 ,
                 foto = R.drawable.profile,
                 nama = assignee.name ?: "Tanpa Nama",
-                keahlian = assignee.email ?: "Tanpa Email",
+                keahlian = assignee.role ?: "Role tidak Ditemukan",
                 jamKerja = "${assignee.tasks?.sumOf { it.timeEstimateHours ?: 0 } ?: 0} Jam",
-                jumlahTask = tasksForKaryawan.size,
                 periode = "Desember 2025",
-                taskList = tasksForKaryawan,
+                taskList = emptyList(),
                 totalTaskFromApi = assignee.totalTask ?: 0,
                 totalSpentHoursFromApi = assignee.totalSpentHours ?: 0,
-                totalActualHoursFormApi = assignee.actualWorkHours ?: 0
+                totalActualHoursFormApi = assignee.actualWorkHours ?: 0,
+                performanceColor = backgroundColorResource,
+                peformanceTextColor = textColorAndImageResource,
+                onTimepersentase = onTimePercentageString
             )
         }
     }
@@ -295,7 +297,10 @@ class BebanFragment : Fragment() {
             dueDate = null,
             dateDone = null,
             timeEstimateHours = 10,
-            timeEstimate = null
+            timeEstimate = null,
+            timeEfficiencyPercentage = 0.0F,
+            backgroundColor = R.color.red,
+            remainingTime = "lebih dari 10 Jam"
         )
         val dummyApiTask2 = ApiTask(
             id = "dummy-02", name = "Contoh: Membuat laporan bulanan",
@@ -308,7 +313,10 @@ class BebanFragment : Fragment() {
             dueDate = null,
             dateDone = null,
             timeEstimateHours = 5,
-            timeEstimate = null
+            timeEstimate = null,
+            timeEfficiencyPercentage = 0.0F,
+            backgroundColor = R.color.red,
+            remainingTime = "lebih dari 10 Jam"
         )
 
         val dummyTaskList = listOf(
@@ -321,16 +329,20 @@ class BebanFragment : Fragment() {
         )
 
         val karyawanDummy1 = Karyawan(
+            id = 1,
             foto = R.drawable.profile,
             nama = "(Dummy)",
             keahlian = "Pengembang Aplikasi",
             jamKerja = "12 Jam",
-            jumlahTask = 1,
             periode = "Desember 2025",
             taskList = dummyTaskList,
             totalTaskFromApi = 2,
             totalSpentHoursFromApi = 16,
-            totalActualHoursFormApi = 0
+            totalActualHoursFormApi = 0,
+            performanceColor = R.color.red,
+            peformanceTextColor = R.color.hijaugelap,
+            onTimepersentase = "0%"
+
 
         )
 

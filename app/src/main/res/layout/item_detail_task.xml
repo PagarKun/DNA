@@ -113,6 +113,62 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_time_persentage"
+                android:background="@color/hijau3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="6dp"
+                app:strokeColor="@color/hijaustroke"
+                >
+
+                <LinearLayout
+                    android:id="@+id/LL_Ketepatan_pengerjaan_tugas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
+                        android:textColor="@color/abuabu4"
+                        android:text="Ketepatan pengerjaan Tugas"/>
+
+                    <TextView
+                        android:id="@+id/tv_Ketepatan_pengerjaan_tugas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
+                        android:textStyle="bold"
+                        android:text="100%"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:paddingStart="10dp"
+                        android:textColor="@color/abuabu4"
+                        android:text="Waktu pengerjaan"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_remaining_time"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lebih cepat/lebih lambat"
+                        />
+
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Deskripsi -->
             <TextView
                 android:id="@+id/tv_desc"

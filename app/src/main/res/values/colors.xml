@@ -62,7 +62,13 @@
 <!--Merah-->
     <color name="red">#FF0000</color>
     <color name="red2">#D00808</color>
+    <color name="red3">#FBCFCF</color>
+    <color name="red4">#F6A8A8</color>
 
 
+<!--Pink-->
+<color name="pink">#F3E5F5</color>
+<color name="darkpink">#B370BC</color>
+<color name="pinkstroke">#F3E5F5</color>
 
 </resources>

@@ -1,11 +1,13 @@
 package com.Adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dna.R
 
@@ -30,7 +32,10 @@ class KaryawanAdapter(
         val detailJamKerja: TextView = itemView.findViewById(R.id.detail_jam_kerja)
 
         val detailJamKerjaseharusnya: TextView = itemView.findViewById(R.id.detail_jam_kerja_seharusnya)
-        val detailPerforma: TextView = itemView.findViewById(R.id.detail_performa)
+        val detailPerforma: TextView = itemView.findViewById(R.id.tv_detail_performa)
+        val peforma_color_background: LinearLayout = itemView.findViewById(R.id.peforma_color)
+        val peforma_color_image: ImageView = itemView.findViewById(R.id.iv_peforma_image)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -42,18 +47,23 @@ class KaryawanAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dataKaryawan = listKaryawan[position]
 
+        val color = ContextCompat.getColor(holder.itemView.context,dataKaryawan.performanceColor)
+        val colorTextAndImage = ContextCompat.getColor(holder.itemView.context,dataKaryawan.peformanceTextColor)
+        holder.peforma_color_background.setBackgroundColor(color)
+        holder.detailPerforma.setTextColor(colorTextAndImage)
+        holder.peforma_color_image.setColorFilter(colorTextAndImage)
+
         // --- Set Data Utama ---
         holder.foto.setImageResource(dataKaryawan.foto)
         holder.nama.text = dataKaryawan.nama
-        holder.keahlian.text = dataKaryawan.keahlian
+        holder.keahlian.text = "${dataKaryawan.keahlian}"
 
         // --- Set Data DI DALAM Expandable Layout ---
-        // Anda perlu menambahkan data ini ke data class Karyawan atau menghitungnya di sini
         holder.detailJamKerja.text = "${dataKaryawan.totalSpentHoursFromApi} Jam dari ${dataKaryawan.totalTaskFromApi} task"
-        holder.detailJamKerjaseharusnya.text = "${dataKaryawan.totalActualHoursFormApi}Jam dari ${dataKaryawan.totalTaskFromApi} task"
-        holder.detailPerforma.text = "0.9% dari standar" // Contoh, data ini perlu Anda sediakan
+        holder.detailJamKerjaseharusnya.text = "${dataKaryawan.totalActualHoursFormApi} Jam dari ${dataKaryawan.totalTaskFromApi} task"
+        holder.detailPerforma.text = "${dataKaryawan.onTimepersentase}"
 
-        // --- Logika Expand / Collapse (SAMA SEPERTI SEBELUMNYA) ---
+        // --- Logika Expand ---
         if (dataKaryawan.isBebanExpanded) {
             holder.expandableBeban.visibility = View.VISIBLE
             holder.arrowBeban.rotation = 180f
