@@ -10,7 +10,7 @@
     android:paddingEnd="16dp"
     android:paddingBottom="12dp">
 
-    <!-- CheckBox di sebelah kiri -->
+    <!-- CheckBox -->
     <CheckBox
         android:id="@+id/item_checkbox"
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- TextView untuk Posisi -->
+    <!-- TextView Posisi -->
     <TextView
         android:id="@+id/list_Posisi"
         android:layout_width="0dp"
@@ -37,7 +37,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Rizqi Putra" />
 
-    <!-- Garis Pemisah (Divider) di bagian bawah -->
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"

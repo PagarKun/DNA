@@ -1,6 +1,5 @@
 package com.MemberAPI
 
-import com.MemberAPI.MemberRequest
 import retrofit2.Call
 import retrofit2.http.GET
 

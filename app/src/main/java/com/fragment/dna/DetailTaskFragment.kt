@@ -1,6 +1,5 @@
 package com.fragment.dna
 
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,7 +16,6 @@ import com.example.dna.R
 import com.bumptech.glide.Glide
 import com.RangeAPI.Assignee
 import com.RangeAPI.RangeApiResponse
-import com.RangeAPI.Task
 import com.RangeAPI.RetrofitClient as RangeRetrofitClient
 import retrofit2.Call
 import retrofit2.Callback

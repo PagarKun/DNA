@@ -60,7 +60,7 @@
                 android:id="@+id/filterCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="24dp"
+                android:layout_margin="12dp"
                 android:backgroundTint="@color/white"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="6dp"

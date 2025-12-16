@@ -12,7 +12,7 @@
         android:background="@color/blueberry"
         android:layout_marginBottom="15dp"/>
 
-    <!-- Card untuk Sync ClickUp -->
+    <!-- Card Sync  -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardSync"
         android:layout_width="match_parent"
@@ -40,15 +40,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="16dp"
-                android:text="Sync ClickUp"
+                android:text="Sync"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center"/>
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Card untuk Logout -->
+    <!-- Card Logout -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardLogout"
         android:layout_width="match_parent"

@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
-    <!-- TextView untuk Nama Karyawan -->
+    <!-- TextView Nama Karyawan -->
     <TextView
         android:id="@+id/list_namakaryawan"
         android:layout_width="0dp"

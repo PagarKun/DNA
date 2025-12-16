@@ -23,7 +23,7 @@ class KaryawanAdapter(
         val keahlian: TextView = itemView.findViewById(R.id.keahlian_kinerja)
         val btnTaskDetail: LinearLayout = itemView.findViewById(R.id.taskdetailBtn)
 
-        // View untuk Expandable
+        // View Expandable
         val headerBeban: LinearLayout = itemView.findViewById(R.id.headerBeban)
         val expandableBeban: LinearLayout = itemView.findViewById(R.id.expandableBeban) // Pastikan ID ini benar
         val arrowBeban: ImageView = itemView.findViewById(R.id.arrowBeban)
@@ -53,17 +53,17 @@ class KaryawanAdapter(
         holder.detailPerforma.setTextColor(colorTextAndImage)
         holder.peforma_color_image.setColorFilter(colorTextAndImage)
 
-        // --- Set Data Utama ---
+        // Set Data Utama
         holder.foto.setImageResource(dataKaryawan.foto)
         holder.nama.text = dataKaryawan.nama
         holder.keahlian.text = "${dataKaryawan.keahlian}"
 
-        // --- Set Data DI DALAM Expandable Layout ---
+        // Set Data DI DALAM Expandable Layout
         holder.detailJamKerja.text = "${dataKaryawan.totalSpentHoursFromApi} Jam dari ${dataKaryawan.totalTaskFromApi} task"
         holder.detailJamKerjaseharusnya.text = "${dataKaryawan.totalActualHoursFormApi} Jam dari ${dataKaryawan.totalTaskFromApi} task"
         holder.detailPerforma.text = "${dataKaryawan.onTimepersentase}"
 
-        // --- Logika Expand ---
+        // Logika Expand
         if (dataKaryawan.isBebanExpanded) {
             holder.expandableBeban.visibility = View.VISIBLE
             holder.arrowBeban.rotation = 180f

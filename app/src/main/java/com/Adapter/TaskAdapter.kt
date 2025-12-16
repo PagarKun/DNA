@@ -15,7 +15,6 @@ import com.example.dna.R
 class TaskAdapter(private val taskList: List<Task>)
     : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
-    //semua referensi View dari layout 'item_task.xml'.
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val namaTask: TextView = itemView.findViewById(R.id.taskTitle)
         val rvTask : RecyclerView = itemView.findViewById(R.id.rvTask)
@@ -24,7 +23,6 @@ class TaskAdapter(private val taskList: List<Task>)
         val isExpandedArrow : ConstraintLayout = itemView.findViewById(R.id.headerDetailTask)
     }
 
-    //instance ViewHolder baru saat RecyclerView membutuhkannya.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_task, parent, false)
@@ -34,7 +32,6 @@ class TaskAdapter(private val taskList: List<Task>)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = taskList[position]
 
-        // Set data untuk UI utama.
         holder.namaTask.text = data.judul
 
 
@@ -51,6 +48,5 @@ class TaskAdapter(private val taskList: List<Task>)
         }
     }
 
-    // Kembalikan jumlah total item
     override fun getItemCount(): Int = taskList.size
 }

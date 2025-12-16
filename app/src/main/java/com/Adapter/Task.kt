@@ -1,6 +1,5 @@
 package com.Adapter
 import android.os.Parcelable
-import com.DetailTaskAdapter.detailTaskModel
 import com.RangeAPI.Assignee
 import com.RangeAPI.Task
 import kotlinx.parcelize.Parcelize

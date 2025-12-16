@@ -1,8 +1,6 @@
 package com.DetailTaskAdapter
 
 import android.os.Parcelable
-import androidx.annotation.ColorRes
-import com.bumptech.glide.Priority
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

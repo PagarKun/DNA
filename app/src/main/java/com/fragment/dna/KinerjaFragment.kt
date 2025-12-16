@@ -21,10 +21,9 @@ class KinerjaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        // Inflate
         val view = inflater.inflate(R.layout.fragment_kinerja, container, false)
 
-        // Initialize RecyclerView dari view yang sudah di-inflate
         rvEmployees = view.findViewById(R.id.rvEmployees)
 
         // Dummy data

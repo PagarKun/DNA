@@ -7,12 +7,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.RangeAPI.Assignee
 import com.example.dna.R
 import com.RangeAPI.Task
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
-import org.w3c.dom.Text
 
 class detailAdapter(
 

@@ -66,7 +66,7 @@ class DashBoardFragment : Fragment() {
 
     private fun setupRecyclerView() {
         recycleView.layoutManager = LinearLayoutManager(requireContext())
-        // Inisialisasi adapter dengan list kosong, akan diisi nanti oleh API
+        // Inisialisasi adapter list kosong
         adapter = AdapterClass(ArrayList()) { item ->
             showBottomSheetDetail(item)
         }
@@ -74,18 +74,16 @@ class DashBoardFragment : Fragment() {
     }
 
     private fun setupFilterListeners() {
-        // Listener untuk kotak PENCARIAN NAMA
+        // Listener kotak Pencarian Nama
         searchInput.addTextChangedListener { text ->
             val keyword = text.toString()
 
-            // Ambil status filter saat ini dari KEDUA dropdown
             val posisiAdapter = dropdownPosisi.adapter as? PosisiAdapter
             val statusAdapter = dropdownStatus.adapter as? StatusKaryawanAdapter
 
             val checkedPositions = posisiAdapter?.items?.filter { it.isChecked }?.map { it.nama }
             val checkedStatuses = statusAdapter?.items?.filter { it.isChecked }?.map { it.status }
 
-            // Panggil SATU filterData dengan semua info yang ada
             filterData(
                 keyword,
                 checkedPositions ?: listOf("Semua Posisi"),
@@ -104,14 +102,14 @@ class DashBoardFragment : Fragment() {
                     val data = response.body()?.users ?: emptyList()
                     Log.d("API_DATA", "Data received: ${data.size} items")
 
-                    // Isi daftar utama untuk RecyclerView
+                    // RecyclerView
                     fullList.clear()
                     fullList.addAll(data)
 
-                    // Tampilkan semua data awal
+                    // semua data awal
                     adapter.filterList(fullList)
 
-                    // Update jumlah total karyawan awal
+                    // total karyawan awal
                     totalkaryawanText.text = "${fullList.size} Orang"
 
                     // Setup dropdown dengan data dari API
@@ -129,15 +127,15 @@ class DashBoardFragment : Fragment() {
     }
 
     private fun setupDropdowns(data: List<MemberRequest>) {
-        // Ekstrak data unik untuk posisi dan status dari API
+        // Ekstrak data posisi dan status dari API
         val daftarNamaPosisi = data.mapNotNull { it.role }.distinct()
         val daftarStatus = data.mapNotNull { it.status }.distinct()
 
-        // Buat daftar item untuk adapter Posisi
+        // daftar item Posisi
         val daftarPosisiItem = daftarNamaPosisi.map { PosisiItem(it) }.toMutableList()
         daftarPosisiItem.add(0, PosisiItem("Semua Posisi", true))
 
-        // Buat daftar item untuk adapter Status
+        // daftar item Status
         val daftarStatusItem =
             daftarStatus.map { StatusKaryawanModel(it, isChecked = false) }.toMutableList()
         daftarStatusItem.add(0, StatusKaryawanModel("Semua Status", true))
@@ -154,12 +152,12 @@ class DashBoardFragment : Fragment() {
         dropdownPosisi.setAdapter(dropdownAdapterPosisi)
         dropdownStatus.setAdapter(dropdownAdapterStatus)
 
-        // Set teks awal untuk kedua dropdown
+        // Set kedua dropdown
         dropdownPosisi.setText("Semua Posisi", false)
         dropdownStatus.setText("Semua Status", false)
 
 
-        // --- Listener untuk dropdown STATUS ---
+        // Listener dropdown STATUS
         dropdownStatus.setOnItemClickListener { parent, _, position, _ ->
             val adapter = parent.adapter as StatusKaryawanAdapter
             val clickedItem = adapter.getItem(position) ?: return@setOnItemClickListener
@@ -174,7 +172,7 @@ class DashBoardFragment : Fragment() {
             }
             adapter.notifyDataSetChanged()
 
-            // Buat & tampilkan summary
+            // Buat summary
             val checkedItems = adapter.items.filter { it.isChecked }.map { it.status }
             val summaryText = when {
                 checkedItems.contains("Semua Status") || checkedItems.isEmpty() -> "Semua Status"
@@ -183,7 +181,6 @@ class DashBoardFragment : Fragment() {
             }
             dropdownStatus.setText(summaryText, false)
 
-            // Ambil data dari filter lain & panggil filterData pusat
             val namaKeyword = searchInput.text.toString()
             val posisiAdapter = dropdownPosisi.adapter as PosisiAdapter
             val checkedPositions = posisiAdapter.items.filter { it.isChecked }.map { it.nama }
@@ -197,7 +194,7 @@ class DashBoardFragment : Fragment() {
             dropdownStatus.showDropDown()
         }
 
-        // --- Listener untuk dropdown POSISI ---
+        // Listener dropdown Posisi
         dropdownPosisi.setOnItemClickListener { parent, _, position, _ ->
             val adapter = parent.adapter as PosisiAdapter
             val clickedItem = adapter.getItem(position) ?: return@setOnItemClickListener
@@ -212,7 +209,7 @@ class DashBoardFragment : Fragment() {
             }
             adapter.notifyDataSetChanged()
 
-            // Buat & tampilkan summary
+            // tampilkan summary
             val checkedItems = adapter.items.filter { it.isChecked }.map { it.nama }
             val summaryText = when {
                 checkedItems.contains("Semua Posisi") || checkedItems.isEmpty() -> "Semua Posisi"
@@ -221,7 +218,7 @@ class DashBoardFragment : Fragment() {
             }
             dropdownPosisi.setText(summaryText, false)
 
-            // Ambil data dari filter lain & panggil filterData pusat
+
             val namaKeyword = searchInput.text.toString()
             val statusAdapter = dropdownStatus.adapter as StatusKaryawanAdapter
             val checkedStatuses = statusAdapter.items.filter { it.isChecked }.map { it.status }
@@ -236,16 +233,15 @@ class DashBoardFragment : Fragment() {
         }
     }
 
-    // SATU-SATUNYA FUNGSI filterData YANG BENAR DAN LENGKAP
     private fun filterData(
         namaKeyword: String,
         posisiKeywords: List<String>,
         statusKeywords: List<String>
     ) {
-        // Mulai dengan daftar lengkap setiap kali filter dipanggil
+        //daftar lengkap setiap kali filter dipanggil
         var hasilFilter = fullList.toList()
 
-        //  Filter berdasarkan NAMA
+        //  Filter Nama
         if (namaKeyword.isNotBlank()) {
             hasilFilter = hasilFilter.filter { member ->
                 // Cari di nama asli ATAU display name.
@@ -255,7 +251,7 @@ class DashBoardFragment : Fragment() {
             }
         }
 
-        //  Filter berdasarkan POSISI (Multi-choice)
+        //  POSISI (Multi-choice)
         val isFilteringByPosition =
             !posisiKeywords.contains("Semua Posisi") && posisiKeywords.isNotEmpty()
         if (isFilteringByPosition) {
@@ -269,7 +265,7 @@ class DashBoardFragment : Fragment() {
             }
         }
 
-        // Filter berdasarkan STATUS (Multi-choice)
+        // (Multi-choice)
         val isFilteringByStatus =
             !statusKeywords.contains("Semua Status") && statusKeywords.isNotEmpty()
         if (isFilteringByStatus) {
@@ -283,7 +279,7 @@ class DashBoardFragment : Fragment() {
             }
         }
 
-        // Update adapter dan jumlah karyawan dengan hasil akhir
+        // jumlah karyawan
         adapter.filterList(hasilFilter)
         totalkaryawanText.text = "${hasilFilter.size} Orang"
     }

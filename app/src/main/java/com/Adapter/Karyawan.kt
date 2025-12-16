@@ -4,18 +4,18 @@ import androidx.annotation.ColorRes
 
 
 data class Karyawan(
-    // --- Data tampilan utama ---
+    //Data tampilan utama
     val id: Int,
     val foto: Int,
     val nama: String,
     val keahlian: String,
     val periode: String,
 
-    // --- Data kalkulasi internal & tampilan detail ---
+
     val jamKerja: String,
     val taskList: List<Task>,
 
-    // --- Data dari API  ---
+    // Data API
     val totalTaskFromApi: Int,
     val totalSpentHoursFromApi: Int,
     val totalActualHoursFormApi: Int,
@@ -23,6 +23,6 @@ data class Karyawan(
     @ColorRes val performanceColor : Int,
     @ColorRes val peformanceTextColor: Int,
 
-    // --- State kontrol UI ---
+    //State kontrol UI
     var isBebanExpanded: Boolean = false
 )
